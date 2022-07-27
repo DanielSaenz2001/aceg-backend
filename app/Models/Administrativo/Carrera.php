@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models\Administrativo;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Carrera extends Model{
+
+    public $timestamps = false;
+    
+    protected $table = 'facultades';
+    protected $primaryKey = 'id';
+    protected $guarded = ["id"];
+
+    protected $fillable = [
+        'id',
+        'nombre',
+        'codigo',
+        'estado',
+        'facultad_id',
+    ];
+    
+    protected $casts = [
+        'estado'      => 'boolean',
+        'facultad_id' => 'integer',
+    ];
+
+}
