@@ -54,7 +54,7 @@ class CreateUsersTable extends Migration
                     'celular' => '000000001',
                     'usuario' => 'aceg.admin',
                     'estado' => true,
-                    'password' => Hash::make('aceg.admin'),
+                    'password' => '$2y$10$JV4U.EfcQgNPGPPmRjmnu.D7q0wWRoFlK.4DIFpxfnnubza.hF7Hm',
                     'creado' => $miTiempo,
                     'modificado' => $miTiempo,
                     'validado' => true
@@ -71,7 +71,7 @@ class CreateUsersTable extends Migration
                     'celular' => '000000002',
                     'usuario' => 'aceg.matri',
                     'estado' => true,
-                    'password' => Hash::make('aceg.matri'),
+                    'password' => '$2y$10$JV4U.EfcQgNPGPPmRjmnu.D7q0wWRoFlK.4DIFpxfnnubza.hF7Hm',
                     'creado' => $miTiempo,
                     'modificado' => $miTiempo,
                     'validado' => true
@@ -88,7 +88,7 @@ class CreateUsersTable extends Migration
                     'celular' => '000000003',
                     'usuario' => 'aceg.alum',
                     'estado' => true,
-                    'password' => Hash::make('aceg.alum'),
+                    'password' => '$2y$10$JV4U.EfcQgNPGPPmRjmnu.D7q0wWRoFlK.4DIFpxfnnubza.hF7Hm',
                     'creado' => $miTiempo,
                     'modificado' => $miTiempo,
                     'validado' => true
