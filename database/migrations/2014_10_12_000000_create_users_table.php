@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->boolean('sexo');
             $table->string('email', 100)->unique();
             $table->date('fecha_nacimiento');
-            $table->string('imagen',500)>nullable();
+            $table->string('imagen',500)->nullable();
             $table->string('celular', 100)->unique();
             $table->boolean('estado');
             $table->string('usuario', 20)->unique();
