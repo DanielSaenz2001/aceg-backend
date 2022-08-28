@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('apellido_paterno', 255);
             $table->string('apellido_materno', 255);
             $table->string('direccion', 510)->nullable();
-            $table->boolean('sexo');
+            $table->string('sexo', 1);
             $table->string('email', 100)->unique();
             $table->date('fecha_nacimiento');
             $table->string('imagen',500)->nullable();
