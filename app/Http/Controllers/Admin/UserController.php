@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function index(){
 
-        $resquest  = User::paginate(10);
+        $resquest  = User::paginate(20);
 
         return response()->json($resquest); 
     }
@@ -21,7 +21,9 @@ class UserController extends Controller
 
         $usuario = User::findOrFail($id);
 
-        return response()->json($usuario);
+        return response()->json([
+            'user' => $usuario
+        ]);
 
     }
 
@@ -46,7 +48,7 @@ class UserController extends Controller
             ), 400);
         }
 
-        $res = User::user($request->username)->first();
+        $res = User::user($request->usuario)->first();
         if($res){
             return response()->json(array(
                 'code'      =>  400,
@@ -64,29 +66,24 @@ class UserController extends Controller
             ), 400);
         }
         $usuario = new User();
-        $usuario->dni               = $request->dni;
         $usuario->nombres           = $request->nombres;
         $usuario->apellido_paterno  = $request->apellido_paterno;
         $usuario->apellido_materno  = $request->apellido_materno;
         $usuario->direccion         = $request->direccion;
+        $usuario->dni               = $request->dni;
         $usuario->sexo              = $request->sexo;
         $usuario->email             = $request->email;
         $usuario->fecha_nacimiento  = $request->fecha_nacimiento;
         $usuario->celular           = $request->celular;
-        $usuario->estado            = $request->estado;
-        $usuario->imagen            = $request->imagen;
-        $usuario->username          = $request->username;
+        $usuario->usuario           = $request->usuario;
         $usuario->password          = $request->dni;
-        $usuario->validado          = false;
+        $usuario->validado          = true;
         $usuario->creado            = $mytime;
         $usuario->modificado        = $mytime;
+        $usuario->validado          = $request->validado;
+        $usuario->imagen            = $request->imagen;
 
         $usuario->save();
-
-        $rolUser = new RoleUser();
-        $rolUser->user_id   = $usuario->id;
-        $rolUser->rol_id    = $request->rol_id;
-        $rolUser->save();
 
         return response()->json(array(
             'code'      =>  200,
