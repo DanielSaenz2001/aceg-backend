@@ -91,7 +91,7 @@ class AuthController extends Controller
     }
 
     protected function respondWithToken($token){
-
+/*
         $roles = RoleUser::where('user_id', auth()->user()->id)
         ->join('roles',         'roles.id',             'role_user.rol_id')
         ->join('links_roles',   'links_roles.role_id',  'role_user.rol_id')
@@ -110,7 +110,7 @@ class AuthController extends Controller
 
 
         $modulos = collect($modulos)->groupBy('link');
-
+        */
         return response()->json([
             'access_token'  => $token,
             'token_type'    => 'Bearer',
@@ -118,7 +118,7 @@ class AuthController extends Controller
             'nombreCon'     => auth()->user()->nombres ." ".auth()->user()->apellido_paterno ." ".auth()->user()->apellido_materno,
             'dni'           => auth()->user()->dni,
             'usuario'       => auth()->user()->usuario,
-            'permisos'      => $modulos
+            //'permisos'      => $modulos
         ],200);
 
     }
