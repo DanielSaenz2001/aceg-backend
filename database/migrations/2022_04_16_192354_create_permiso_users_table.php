@@ -21,11 +21,24 @@ class CreatePermisoUsersTable extends Migration
             $table->foreign('permiso_id')->references('id')->on('permisos');
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->unique('user_id', 'rol_id');
+            $table->unique('user_id', 'permiso_id');
             
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
         });
+
+        DB::table('permiso_users')->insert(
+            [
+                [
+                    'user_id' => 1,
+                    'permiso_id' => 1,
+                ],
+                [
+                    'user_id' => 1,
+                    'permiso_id' => 2,
+                ]
+            ]
+        );
     }
 
     /**

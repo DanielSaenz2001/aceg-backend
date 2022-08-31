@@ -22,6 +22,21 @@ class CreatePermisosTable extends Migration
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
         });
+
+        DB::table('permisos')->insert(
+            [
+                [
+                    'nombre' => 'Administración de Usuarios',
+                    'codigo' => 'GUsuarios',
+                    'activo' => true
+                ],
+                [
+                    'nombre' => 'Administración de Rutas',
+                    'codigo' => 'GRutas',
+                    'activo' => true
+                ]
+            ]
+        );
     }
 
     /**
