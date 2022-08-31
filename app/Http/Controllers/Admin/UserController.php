@@ -151,56 +151,6 @@ class UserController extends Controller
         return response()->json($usuario);
     }
     
-    public function createRoles(Request $request){
-
-        $mytime = Carbon::now();
-        $role    = RoleUser::user($request->id)->rol($request->rol_id)->first();
-
-        if($role){
-            return response()->json(array(
-                'code'      =>  400,
-                'error' => 'Error en Respuesta',
-                'message'   =>  "El usuario ya tiene el rol deseado."
-            ), 400);
-        }
-
-        $rolUser = new RoleUser();
-        $rolUser->user_id   = $request->id;
-        $rolUser->rol_id    = $request->rol_id;
-        $rolUser->created   = $mytime;
-        $rolUser->modified  = $mytime;
-        $rolUser->username  = auth()->user()->username;
-        $rolUser->save();
-
-        $roles   = RoleUser::user($rolUser->user_id)->get();
-        return response()->json(array(
-            'code'      => 200,
-            'data'      => $roles,
-            'message'   => "Rol agregado con exito."
-        ), 200);
-    }
-
-    public function destroyRoles($id){
-
-        $rolUser = RoleUser::findOrFail($id);
-
-        $roles   = RoleUser::user($rolUser->user_id)->get();
-        if(count($res) < 2){
-            return response()->json(array(
-                'code'      =>  400,
-                'error' => 'Error en Respuesta',
-                'message'   =>  "No puede eliminar mas roles de este usuario."
-            ), 400);
-        }
-        RoleUser::findOrFail($id)->delete();
-
-        return response()->json(array(
-            'code'      => 200,
-            'data'      => $roles,
-            'message'   => "Rol de usuario eliminado."
-        ), 200);
-    }
-    
     public function updateFoto($id, Request $request){
 
         $user = User::findOrFail($id);
