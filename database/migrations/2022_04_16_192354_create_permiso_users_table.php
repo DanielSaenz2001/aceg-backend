@@ -21,7 +21,7 @@ class CreatePermisoUsersTable extends Migration
             $table->foreign('permiso_id')->references('id')->on('permisos');
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->unique('user_id', 'permiso_id');
+            $table->unique(['user_id', 'permiso_id']);
             
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
