@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ChangePasswordController;
 
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\LinksController;
 
 Route::group([
     'middleware' => 'api'
@@ -29,4 +30,12 @@ Route::prefix('usuario')->group(function ($router) {
     Route::get('estado/{id}',       [UserController::class, 'estado']);
     Route::put('foto/{id}',         [UserController::class, 'updateFoto']);
     Route::get('recoveryPa/{id}',   [UserController::class, 'recoveryPassword']);
+});
+
+Route::prefix('links')->group(function ($router) {
+    Route::get('',                  [LinksController::class, 'index']);
+    Route::get('{id}',              [LinksController::class, 'show']);
+    Route::post('',                 [LinksController::class, 'create']);
+    Route::put('{id}',              [LinksController::class, 'update']);
+    Route::delete('{id}',           [LinksController::class, 'destroy']);
 });
