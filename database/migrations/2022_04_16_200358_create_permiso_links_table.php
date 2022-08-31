@@ -26,6 +26,19 @@ class CreatePermisoLinksTable extends Migration
             $table->charset   = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
         });
+
+        DB::table('permiso_links')->insert(
+            [
+                [
+                    'link_id' => 2,
+                    'permiso_id' => 1,
+                ],
+                [
+                    'link_id' => 3,
+                    'permiso_id' => 2,
+                ]
+            ]
+        );
     }
 
     /**

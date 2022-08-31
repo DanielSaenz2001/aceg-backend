@@ -20,6 +20,7 @@ class CreateLinksTable extends Migration
             $table->unsignedInteger('id')->autoIncrement();
             $table->string('nombre', 2230);
             $table->string('link', 2230);
+            $table->string('icon', 50);
             $table->integer('orden');
             $table->unsignedInteger('padre_id')->nullable();
 
@@ -39,6 +40,7 @@ class CreateLinksTable extends Migration
                 [
                     'nombre'    => 'Configuración',
                     'link'      => '/configuracion',
+                    'icon'      => 'settings-2-outline',
                     'orden'     => '1',
                     'padre_id'  => null,
                     'usuario'   => 'aceg.admin',
@@ -48,6 +50,7 @@ class CreateLinksTable extends Migration
                 [
                     'nombre'      => 'Administración de Usuarios',
                     'link'      => '/usuarios',
+                    'icon'      => 'people-outline',
                     'orden'     => '1',
                     'padre_id'  => 1,
                     'usuario'   => 'aceg.admin',
@@ -57,7 +60,8 @@ class CreateLinksTable extends Migration
                 [
                     'nombre'      => 'Administración de Rutas',
                     'link'      => '/links',
-                    'orden'     => '1',
+                    'icon'      => 'link-2-outline',
+                    'orden'     => '2',
                     'padre_id'  => 1,
                     'usuario'   => 'aceg.admin',
                     'creado'    => $miTiempo,
