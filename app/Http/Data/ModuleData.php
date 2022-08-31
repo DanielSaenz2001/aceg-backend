@@ -12,7 +12,7 @@ class ModuleData extends Controller
     {
     }
 
-    public static function BaseFolder($user_id){
+    public static function getModules($user_id){
         $q = DB::table('permiso_users as pu');
         $q->join('permiso_links as pl', 'pl.permiso_id', "pu.permiso_id");
         $q->join('links as l', 'l.id', "pl.link_id");
