@@ -34,7 +34,6 @@ class PermisoController extends Controller
         $permiso  = Permiso::findOrFail($id);
 
         $permiso->nombre     =  $request->nombre;
-        $permiso->codigo     =  $request->codigo;
         $permiso->activo     =  $request->activo;
         $permiso->save();
 

@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Admin\RoleUser;
 use Carbon\Carbon;
+use App\Http\Data\ModuleData;
 
 class AuthController extends Controller
 {
@@ -91,26 +91,8 @@ class AuthController extends Controller
     }
 
     protected function respondWithToken($token){
-/*
-        $roles = RoleUser::where('user_id', auth()->user()->id)
-        ->join('roles',         'roles.id',             'role_user.rol_id')
-        ->join('links_roles',   'links_roles.role_id',  'role_user.rol_id')
-        ->join('links',         'links.id',             'links_roles.link_id')
-        ->where('links.padre_id', null)
-        ->select('roles.id',    'roles.rol as nombre' , 'links.nombre',     'links.link')
-        ->groupBy('links.link')->get();
+        $permisos = ModuleData::getModules(auth()->user()->id);
 
-        $users = User::where('id', auth()->user()->id)
-        ->join('links_users',   'links_users.user_id',  'users.id')
-        ->join('links',         'links.id',             'links_users.link_id')
-        ->where('links.padre_id', null)
-        ->select('links.nombre','links.link')->groupBy('links.link')->get();
-
-        $modulos = array_merge($roles->toArray(), $users->toArray());
-
-
-        $modulos = collect($modulos)->groupBy('link');
-        */
         return response()->json([
             'access_token'  => $token,
             'token_type'    => 'Bearer',
@@ -118,7 +100,7 @@ class AuthController extends Controller
             'nombreCon'     => auth()->user()->nombres ." ".auth()->user()->apellido_paterno ." ".auth()->user()->apellido_materno,
             'dni'           => auth()->user()->dni,
             'usuario'       => auth()->user()->usuario,
-            //'permisos'      => $modulos
+            'permisos'      => $permisos
         ],200);
 
     }
