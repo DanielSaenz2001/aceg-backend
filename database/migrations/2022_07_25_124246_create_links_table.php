@@ -37,10 +37,19 @@ class CreateLinksTable extends Migration
             [
                 
                 [
-                    'nombre'    => 'Portal Admin',
-                    'link'      => '/admin',
+                    'nombre'    => 'Configuración',
+                    'link'      => '/configuracion',
                     'orden'     => '1',
                     'padre_id'  => null,
+                    'usuario'   => 'aceg.admin',
+                    'creado'    => $miTiempo,
+                    'modificado'=> $miTiempo
+                ],
+                [
+                    'nombre'      => 'Administración de Usuarios',
+                    'link'      => '/usuarios',
+                    'orden'     => '1',
+                    'padre_id'  => 1,
                     'usuario'   => 'aceg.admin',
                     'creado'    => $miTiempo,
                     'modificado'=> $miTiempo
