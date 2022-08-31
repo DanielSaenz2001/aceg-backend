@@ -21,7 +21,7 @@ class ModuleData extends Controller
         $links = $q->get();
 
         $data = [];
-        
+
         $i = 0;
         foreach ($links as $link) {
             $condicional = false;
@@ -30,12 +30,12 @@ class ModuleData extends Controller
 
             while ($condicional == false) {
                 $q = DB::table('links as l');
-                $q->where("l.padre_id", $lin->padre_id);
+                $q->where("l.id", $lin->padre_id);
                 $q->select("l.*");
                 $lin = $q->first();
 
                 if(!$lin){
-
+                    error_log("estoy entrando aca?");
                     $condicional = true;
                     if(!in_array($link, $data))
                     {
@@ -44,11 +44,12 @@ class ModuleData extends Controller
                     }
 
                 }else{
+                    error_log("aca deberia entrar");
                     if($lin->padre_id == null){
                         $condicional = true;
                         if(!in_array($lin, $data))
                         {
-                            $data[$i] = $link;
+                            $data[$i] = $lin;
                             $i = $i + 1;
                         }
                     }
