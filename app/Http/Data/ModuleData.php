@@ -68,12 +68,13 @@ class ModuleData extends Controller
             $i = 0;
             foreach ($childrens as $children) {
                 $da->children[$i] = [
-                    'title'     => $childrens->nombre,
-                    'icon'      => $childrens->icon,
+                    'title'     => $children->nombre,
+                    'icon'      => $children->icon,
                     'link'      => $children->link,
-                    'hidden'    => $childrens->visible,
+                    'hidden'    => $children->visible,
                     'expanded'  => false,
                 ];
+                $i = $i + 1;
             }
         }
         return $data;
