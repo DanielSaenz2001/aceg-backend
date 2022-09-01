@@ -32,6 +32,8 @@ class LinksController extends Controller
         $link = new Link();
         $link->link     = $request->link;
         $link->orden    = $request->orden;
+        $link->icon     = $request->icon;
+        $link->visible  = true;
         $link->padre_id = $request->padre_id;
 
         $link->usuario      = auth()->user()->usuario;
@@ -49,6 +51,8 @@ class LinksController extends Controller
 
         $link = Link::findOrFail($id);
         $link->link     = $request->link;
+        $link->icon     = $request->icon;
+        $link->visible  = $request->visible;
         $link->orden    = $request->orden;
 
         $link->usuario      = auth()->user()->usuario;
