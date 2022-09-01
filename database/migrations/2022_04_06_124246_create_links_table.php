@@ -21,6 +21,7 @@ class CreateLinksTable extends Migration
             $table->string('nombre', 2230);
             $table->string('link', 2230);
             $table->string('icon', 50);
+            $table->boolean('visible');
             $table->integer('orden');
             $table->unsignedInteger('padre_id')->nullable();
 
