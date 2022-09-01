@@ -34,7 +34,6 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->timestamp('creado')->nullable();
             $table->timestamp('modificado')->nullable();
-            $table->boolean('validado');
 
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
@@ -57,7 +56,6 @@ class CreateUsersTable extends Migration
                     'password' => '$2y$10$JV4U.EfcQgNPGPPmRjmnu.D7q0wWRoFlK.4DIFpxfnnubza.hF7Hm',
                     'creado' => $miTiempo,
                     'modificado' => $miTiempo,
-                    'validado' => true
                 ],
                 [
                     'dni' => '00000002',
@@ -74,7 +72,6 @@ class CreateUsersTable extends Migration
                     'password' => '$2y$10$JV4U.EfcQgNPGPPmRjmnu.D7q0wWRoFlK.4DIFpxfnnubza.hF7Hm',
                     'creado' => $miTiempo,
                     'modificado' => $miTiempo,
-                    'validado' => true
                 ],
                 [
                     'dni' => '00000003',
@@ -91,7 +88,6 @@ class CreateUsersTable extends Migration
                     'password' => '$2y$10$JV4U.EfcQgNPGPPmRjmnu.D7q0wWRoFlK.4DIFpxfnnubza.hF7Hm',
                     'creado' => $miTiempo,
                     'modificado' => $miTiempo,
-                    'validado' => true
                 ]
             ]
         );

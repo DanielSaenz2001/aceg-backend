@@ -93,7 +93,7 @@ class UserController extends Controller
         $usuario->celular           = $request->celular;
         $usuario->usuario           = $request->usuario;
         $usuario->password          = $request->dni;
-        $usuario->validado          = true;
+        $usuario->estado            = true;
         $usuario->creado            = $mytime;
         $usuario->modificado        = $mytime;
         $usuario->imagen            = $request->imagen;
@@ -154,7 +154,7 @@ class UserController extends Controller
         $usuario->email             = $request->email;
         $usuario->fecha_nacimiento  = $request->fecha_nacimiento;
         $usuario->celular           = $request->celular;
-        $usuario->validado          = $request->validado;
+        $usuario->estado            = $request->estado;
         $usuario->imagen            = $request->imagen;
         $usuario->usuario           = $request->usuario;
         $usuario->modificado        = $mytime;
@@ -171,7 +171,7 @@ class UserController extends Controller
 
         $usuario = User::findOrFail($id);
 
-        $usuario->validado = !$usuario->validado;
+        $usuario->estado = !$usuario->estado;
 
         $usuario->save();
 
@@ -194,8 +194,6 @@ class UserController extends Controller
     public function recoveryPassword($id){
         $usuario = User::findOrFail($id);
 
-     
-        $usuario->validado          = true;
         $usuario->password          = Hash::make('123456');
         $usuario->save();
         
