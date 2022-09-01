@@ -34,6 +34,11 @@ class CreatePermisosTable extends Migration
                     'nombre' => 'Administración de Rutas',
                     'codigo' => 'GRutas',
                     'activo' => true
+                ],
+                [
+                    'nombre' => 'Administración de Permisos',
+                    'codigo' => 'GPermisos',
+                    'activo' => true
                 ]
             ]
         );

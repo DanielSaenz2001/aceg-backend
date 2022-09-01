@@ -19,4 +19,12 @@ class Permiso extends Model
         'codigo',
         'activo'
     ];
+    
+    protected $casts = [
+        'activo'    => 'boolean',
+    ];
+
+    public function scopeCodigo($query, $codigo){
+        return $query->where('permisos.codigo','like',"$codigo");
+    }
 }

@@ -22,6 +22,14 @@ class PermisoController extends Controller
     public function create(Request $request) {
         $permiso       = new Permiso();
 
+        $res = Permiso::codigo($request->codigo)->first();
+        if($res){
+            return response()->json(array(
+                'status'    => 'Error en Respuesta',
+                'message'   => "Ya hay un Codigo registrado."
+            ), 400);
+        }
+
         $permiso->nombre     =  $request->nombre;
         $permiso->codigo     =  $request->codigo;
         $permiso->activo     =  true;
@@ -33,7 +41,18 @@ class PermisoController extends Controller
     public function update($id, Request $request) {
         $permiso  = Permiso::findOrFail($id);
 
+        if($permiso->codigo !== $request->codigo){
+            $res = Permiso::codigo($request->codigo)->first();
+            if($res){
+                return response()->json(array(
+                    'status'    => 'Error en Respuesta',
+                    'message'   => "Ya hay un Codigo registrado."
+                ), 400);
+            }
+        }
+
         $permiso->nombre     =  $request->nombre;
+        $permiso->codigo     =  $request->codigo;
         $permiso->activo     =  $request->activo;
         $permiso->save();
 

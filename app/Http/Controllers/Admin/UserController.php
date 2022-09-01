@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Admin\RoleUser;
+use App\Models\Admin\PermisoUser;
+use App\Models\Admin\Permiso;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -21,8 +22,23 @@ class UserController extends Controller
 
         $usuario = User::findOrFail($id);
 
+        $permisosUsuarios = PermisoUser::join('permisos', 'permisos.id', 'permiso_users.permiso_id')
+        ->where('permiso_users.user_id', $id)
+        ->select('permisos.*')->get();
+
+        $permisosAvoid = [];
+
+        for ($i=0; $i < count($permisosUsuarios); $i++) { 
+            $permisosAvoid[$i] = $permisosUsuarios[$i]['id'];
+        }
+
+        $permisos = Permiso::whereNotIn('id', $permisosAvoid)->where('activo', true)->get();
+
+
         return response()->json([
-            'user' => $usuario
+            'user'  => $usuario,
+            'puser' => $permisosUsuarios,
+            'permi' => $permisos
         ]);
 
     }
@@ -80,7 +96,6 @@ class UserController extends Controller
         $usuario->validado          = true;
         $usuario->creado            = $mytime;
         $usuario->modificado        = $mytime;
-        $usuario->validado          = $request->validado;
         $usuario->imagen            = $request->imagen;
 
         $usuario->save();
@@ -106,8 +121,8 @@ class UserController extends Controller
                 ), 400);
             }
         }
-        if($usuario->username !== $request->username){
-            $res = User::user($request->username)->first();
+        if($usuario->usuario !== $request->usuario){
+            $res = User::user($request->usuario)->first();
             if($res){
                 return response()->json(array(
                     'code'      =>  400,
@@ -116,6 +131,18 @@ class UserController extends Controller
                 ), 400);
             }
         }
+        if($usuario->email !== $request->email){
+            $res = User::email($request->email)->first();
+            if($res){
+                return response()->json(array(
+                    'code'      =>  400,
+                    'error' => 'Error en Respuesta',
+                    'message'   =>  "Ya hay un Usuario registrado con ese correo."
+                ), 400);
+            }
+        }
+
+        
 
         $usuario = User::findOrFail($id);
         $usuario->dni               = $request->dni;
@@ -127,16 +154,16 @@ class UserController extends Controller
         $usuario->email             = $request->email;
         $usuario->fecha_nacimiento  = $request->fecha_nacimiento;
         $usuario->celular           = $request->celular;
-        $usuario->estado            = $request->estado;
+        $usuario->validado          = $request->validado;
         $usuario->imagen            = $request->imagen;
-        $usuario->username          = $request->username;
+        $usuario->usuario           = $request->usuario;
         $usuario->modificado        = $mytime;
         $usuario->save();
         
         return response()->json(array(
-            'code'      =>  200,
+            'code'      => 200,
             'data'      => 'Ok',
-            'message'   =>  "Usuario Actualizado."
+            'message'   => "Usuario Actualizado."
         ), 200);
     }
 
@@ -144,12 +171,14 @@ class UserController extends Controller
 
         $usuario = User::findOrFail($id);
 
-        $usuario->estado = !$usuario->estado;
+        $usuario->validado = !$usuario->validado;
 
         $usuario->save();
 
         return response()->json($usuario);
     }
+
+    /* Users Others */
     
     public function updateFoto($id, Request $request){
 
@@ -166,7 +195,7 @@ class UserController extends Controller
         $usuario = User::findOrFail($id);
 
      
-        $usuario->validado          = false;
+        $usuario->validado          = true;
         $usuario->password          = Hash::make('123456');
         $usuario->save();
         
@@ -175,5 +204,31 @@ class UserController extends Controller
             'data'      => 'Ok',
             'message'   =>  "Usuario Actualizado."
         ), 200);
+    }
+
+    /* Users Permisos */
+
+    public function addPermiso($id_user, $id_permiso){
+        $puser  = new PermisoUser();
+
+        $puser->permiso_id  = $id_permiso;
+        $puser->user_id     = $id_user;
+        $puser->save();
+
+        return $this->show($id_user);
+    }
+
+    public function deletePermiso($id_user, $id_permiso){
+        $puser  = PermisoUser::where('user_id', $id_user)->where('permiso_id', $id_permiso)->first();
+        if($puser){
+            $puser->delete();
+        }else{
+            return response()->json([
+                'status'    => 'Sin Coincidencia',
+                'message'   => 'No se encontro ese registro.'
+            ], 404);
+        }
+
+        return $this->show($id_user);
     }
 }

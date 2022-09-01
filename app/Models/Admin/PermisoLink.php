@@ -7,5 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class PermisoLink extends Model
 {
-    use HasFactory;
+    public $timestamps = false;
+
+    protected $table = 'permiso_links';
+    protected $primaryKey = 'id';
+    protected $guarded = ["id"];
+
+    protected $fillable = [
+        'id',
+        'link_id',
+        'permiso_id',
+    ];
+    
+    protected $casts = [
+        'permiso_id'    => 'integer',
+        'link_id'       => 'integer',
+    ];
 }

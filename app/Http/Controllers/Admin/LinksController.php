@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Link;
-use App\Models\Admin\LinkRole;
-use App\Models\Admin\LinkUser;
+use App\Models\Admin\PermisoLink;
+use App\Models\Admin\Permiso;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -20,9 +20,26 @@ class LinksController extends Controller
 
     public function show($id)
     {
-        $data = Link::findOrFail($id);
+        $link = Link::findOrFail($id);
 
-        return response()->json($data, 200);
+        $permisosLinks = PermisoLink::join('permisos', 'permisos.id', 'permiso_links.permiso_id')
+        ->where('permiso_links.link_id', $id)
+        ->select('permisos.*')->get();
+
+        $linksAvoid = [];
+
+        for ($i=0; $i < count($permisosLinks); $i++) { 
+            $linksAvoid[$i] = $permisosLinks[$i]['id'];
+        }
+
+        $permisos = Permiso::whereNotIn('id', $linksAvoid)->where('activo', true)->get();
+
+
+        return response()->json([
+            'link'  => $link,
+            'plink' => $permisosLinks,
+            'permi' => $permisos
+        ]);
     }
 
     public function create(Request $request)
@@ -70,20 +87,30 @@ class LinksController extends Controller
         return response()->json($data, 200);
     }
 
-    /* Links Roles And Users */
+    /* Links Permisos */
 
-    public function getRoles($id){
+    public function addPermiso($id_link, $id_permiso){
+        $plink  = new PermisoLink();
 
-        $data = LinkRole::where('link_id', $id)->paginate(20);
+        $plink->permiso_id  = $id_permiso;
+        $plink->link_id     = $id_link;
+        $plink->save();
 
-        return response()->json($data, 200);
+        return $this->show($id_link);
     }
 
-    public function getUsers($id){
+    public function deletePermiso($id_link, $id_permiso){
+        $plink  = PermisoLink::where('link_id', $id_link)->where('permiso_id', $id_permiso)->first();
+        if($plink){
+            $plink->delete();
+        }else{
+            return response()->json([
+                'status'    => 'Sin Coincidencia',
+                'message'   => 'No se encontro ese registro.'
+            ], 404);
+        }
 
-        $data = LinkUser::where('link_id', $id)->paginate(20);
-
-        return response()->json($data, 200);
+        return $this->show($id_link);
     }
 
 }

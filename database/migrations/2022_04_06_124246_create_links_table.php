@@ -70,6 +70,17 @@ class CreateLinksTable extends Migration
                     'usuario'   => 'aceg.admin',
                     'creado'    => $miTiempo,
                     'modificado'=> $miTiempo
+                ],
+                [
+                    'nombre'      => 'Administración de Permisos',
+                    'link'      => '/permisos',
+                    'icon'      => 'shield-outline',
+                    'visible'   => true,
+                    'orden'     => '3',
+                    'padre_id'  => 1,
+                    'usuario'   => 'aceg.admin',
+                    'creado'    => $miTiempo,
+                    'modificado'=> $miTiempo
                 ]
             ]
         );
