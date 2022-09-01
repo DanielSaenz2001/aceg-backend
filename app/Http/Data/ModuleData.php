@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
+use App\Models\Admin\PermisoUser;
 
 class ModuleData extends Controller
 {
@@ -35,7 +36,6 @@ class ModuleData extends Controller
                 $lin = $q->first();
 
                 if(!$lin){
-                    error_log("estoy entrando aca?");
                     $condicional = true;
                     if(!in_array($link, $data))
                     {
@@ -44,7 +44,6 @@ class ModuleData extends Controller
                     }
 
                 }else{
-                    error_log("aca deberia entrar");
                     if($lin->padre_id == null){
                         $condicional = true;
                         if(!in_array($lin, $data))
@@ -57,6 +56,26 @@ class ModuleData extends Controller
             }
         }
 
+        foreach ($data as $da) {
+            $childrens = PermisoUser::join('permiso_links', 'permiso_links.permiso_id', "permiso_users.permiso_id")
+            ->join('links', 'links.id', "permiso_links.link_id")
+            ->where('links.padre_id', $da->id)
+            ->where('permiso_users.user_id', $user_id)
+            ->select('links.*')->get();
+
+            $da->children = [];
+
+            $i = 0;
+            foreach ($childrens as $children) {
+                $da->children[$i] = [
+                    'title'     => $childrens->nombre,
+                    'icon'      => $childrens->icon,
+                    'link'      => $children->link,
+                    'hidden'    => $childrens->visible,
+                    'expanded'  => false,
+                ];
+            }
+        }
         return $data;
     }
 }
