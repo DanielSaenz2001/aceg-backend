@@ -36,11 +36,13 @@ Route::prefix('usuario')->group(function ($router) {
 });
 
 Route::prefix('links')->group(function ($router) {
-    Route::get('',                  [LinksController::class, 'index']);
-    Route::get('{id}',              [LinksController::class, 'show']);
-    Route::post('',                 [LinksController::class, 'create']);
-    Route::put('{id}',              [LinksController::class, 'update']);
-    Route::delete('{id}',           [LinksController::class, 'destroy']);
+    Route::get('',                          [LinksController::class, 'index']);
+    Route::get('{id}',                      [LinksController::class, 'show']);
+    Route::post('',                         [LinksController::class, 'create']);
+    Route::put('{id}',                      [LinksController::class, 'update']);
+    Route::delete('{id}',                   [LinksController::class, 'destroy']);
+    Route::get('addPermiso/{link}/{per}',   [LinksController::class, 'addPermiso']);
+    Route::get('dltPermiso/{link}/{per}',   [LinksController::class, 'deletePermiso']);
 });
 
 Route::prefix('permisos')->group(function ($router) {
