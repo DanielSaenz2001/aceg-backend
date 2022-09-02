@@ -13,7 +13,7 @@ class LinksController extends Controller
 {
     public function index()
     {
-        $data = Link::paginate(20);
+        $data = Link::where('padre_id', null)->get();
 
         return response()->json($data, 200);
     }
@@ -28,7 +28,7 @@ class LinksController extends Controller
 
         $linksAvoid = [];
 
-        for ($i=0; $i < count($permisosLinks); $i++) { 
+        for ($i=0; $i < count($permisosLinks); $i++) {
             $linksAvoid[$i] = $permisosLinks[$i]['id'];
         }
 
@@ -53,10 +53,6 @@ class LinksController extends Controller
         $link->visible  = true;
         $link->padre_id = $request->padre_id;
 
-        $link->usuario      = auth()->user()->usuario;
-        $link->creado       = $miTiempo;
-        $link->modificado   = $miTiempo;
-
         $link->save();
 
         return response()->json($link, 200);
@@ -71,9 +67,6 @@ class LinksController extends Controller
         $link->icon     = $request->icon;
         $link->visible  = $request->visible;
         $link->orden    = $request->orden;
-
-        $link->usuario      = auth()->user()->usuario;
-        $link->modificado   = $miTiempo;
 
         $link->save();
 

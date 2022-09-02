@@ -25,10 +25,6 @@ class CreateLinksTable extends Migration
             $table->integer('orden');
             $table->unsignedInteger('padre_id')->nullable();
 
-            $table->string('usuario')->nullable();
-            $table->timestamp('creado')->nullable();
-            $table->timestamp('modificado')->nullable();
-
             $table->foreign('padre_id')->references('id')->on('links');
 
             $table->charset = 'utf8mb4';
@@ -37,7 +33,7 @@ class CreateLinksTable extends Migration
 
         DB::table('links')->insert(
             [
-                
+
                 [
                     'nombre'    => 'Configuración',
                     'link'      => '/configuracion',

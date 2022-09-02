@@ -15,7 +15,7 @@ class UserController extends Controller
 
         $resquest  = User::paginate(20);
 
-        return response()->json($resquest); 
+        return response()->json($resquest);
     }
 
     public function show($id){
@@ -28,7 +28,7 @@ class UserController extends Controller
 
         $permisosAvoid = [];
 
-        for ($i=0; $i < count($permisosUsuarios); $i++) { 
+        for ($i=0; $i < count($permisosUsuarios); $i++) {
             $permisosAvoid[$i] = $permisosUsuarios[$i]['id'];
         }
 
@@ -43,15 +43,28 @@ class UserController extends Controller
 
     }
 
-    public function filtro(Request $request){
+    public function filtro($paterno, $materno, $nombres, $dni){
 
-        $usuario = User::paterno($request->paterno)->materno($request->materno)
-        ->nombre($request->nombres)->dni($request->dni)->paginate(100);
-        
+        if($paterno == "null"){
+            $paterno = null;
+        }
+        if($materno == "null"){
+            $materno = null;
+        }
+        if($nombres == "null"){
+            $nombres = null;
+        }
+        if($dni     == "null"){
+            $dni     = null;
+        }
+
+        $usuario = User::paterno($paterno)->materno($materno)
+        ->nombre($nombres)->dni($dni)->paginate(100);
+
         return response()->json($usuario);
 
     }
-    
+
     public function create(Request $request){
         $mytime = Carbon::now();
 
@@ -142,7 +155,7 @@ class UserController extends Controller
             }
         }
 
-        
+
 
         $usuario = User::findOrFail($id);
         $usuario->dni               = $request->dni;
@@ -159,7 +172,7 @@ class UserController extends Controller
         $usuario->usuario           = $request->usuario;
         $usuario->modificado        = $mytime;
         $usuario->save();
-        
+
         return response()->json(array(
             'code'      => 200,
             'data'      => 'Ok',
@@ -179,7 +192,7 @@ class UserController extends Controller
     }
 
     /* Users Others */
-    
+
     public function updateFoto($id, Request $request){
 
         $user = User::findOrFail($id);
@@ -194,9 +207,9 @@ class UserController extends Controller
     public function recoveryPassword($id){
         $usuario = User::findOrFail($id);
 
-        $usuario->password          = Hash::make('123456');
+        $usuario->password          = '123456';
         $usuario->save();
-        
+
         return response()->json(array(
             'code'      =>  200,
             'data'      => 'Ok',

@@ -14,10 +14,10 @@ class PermisoController extends Controller
 
         return response()->json($permisos);
     }
-    public function getById($id) {
+    public function show($id) {
         $permiso  = Permiso::FindOrFail($id);
 
-        return response()->json($permiso); 
+        return response()->json($permiso);
     }
     public function create(Request $request) {
         $permiso       = new Permiso();
@@ -35,7 +35,7 @@ class PermisoController extends Controller
         $permiso->activo     =  true;
         $permiso->save();
 
-        return $this->index();
+        return response()->json($permiso, 200);
     }
 
     public function update($id, Request $request) {
@@ -56,7 +56,7 @@ class PermisoController extends Controller
         $permiso->activo     =  $request->activo;
         $permiso->save();
 
-        return $this->index();
+        return response()->json($permiso, 200);
     }
 
     public function destroy($id) {

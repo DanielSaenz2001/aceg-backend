@@ -17,7 +17,7 @@ class User extends Authenticatable implements JWTSubject{
     protected $guarded = ["id"];
 
     protected $fillable = [
-        'email', 'password','nombres','username'
+        'email', 'password','nombres','usuario'
     ];
 
     protected $hidden = [
@@ -65,7 +65,7 @@ class User extends Authenticatable implements JWTSubject{
     }
 
     public function scopeUser($query, $username){
-        return $query->where('users.username','like',"%$username%");
+        return $query->where('users.usuario','like',"%$username%");
     }
 
     public function scopeEmail($query, $email){

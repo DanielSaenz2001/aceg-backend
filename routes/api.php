@@ -24,7 +24,7 @@ Route::group([
 Route::prefix('usuario')->group(function ($router) {
     Route::get('',                          [UserController::class, 'index']);
     Route::get('{id}',                      [UserController::class, 'show']);
-    Route::post('filtro',                   [UserController::class, 'filtro']);
+    Route::get('filtro/{p}/{m}/{n}/{d}',    [UserController::class, 'filtro']);
     Route::post('',                         [UserController::class, 'create']);
     Route::put('{id}',                      [UserController::class, 'update']);
     Route::delete('{id}',                   [UserController::class, 'destroy']);
