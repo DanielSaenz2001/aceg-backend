@@ -20,25 +20,29 @@ class LinksController extends Controller
 
     public function show($id)
     {
-        $link = Link::findOrFail($id);
+        $link       = Link::findOrFail($id);
+        $childrens  = Link::where('padre_id', $id)->get();
 
-        $permisosLinks = PermisoLink::join('permisos', 'permisos.id', 'permiso_links.permiso_id')
-        ->where('permiso_links.link_id', $id)
-        ->select('permisos.*')->get();
+        foreach ($childrens as $children) {
+            $permisosLinks = PermisoLink::join('permisos', 'permisos.id', 'permiso_links.permiso_id')
+            ->where('permiso_links.link_id', $children->id)
+            ->select('permisos.*')->get();
 
-        $linksAvoid = [];
+            $linksAvoid = [];
 
-        for ($i=0; $i < count($permisosLinks); $i++) {
-            $linksAvoid[$i] = $permisosLinks[$i]['id'];
+            for ($i=0; $i < count($permisosLinks); $i++) {
+                $linksAvoid[$i] = $permisosLinks[$i]['id'];
+            }
+
+            $permisos = Permiso::whereNotIn('id', $linksAvoid)->where('activo', true)->get();
+
+            $children->permisosLinks    = $permisosLinks;
+            $children->permisos         = $permisos;
         }
 
-        $permisos = Permiso::whereNotIn('id', $linksAvoid)->where('activo', true)->get();
-
-
         return response()->json([
-            'link'  => $link,
-            'plink' => $permisosLinks,
-            'permi' => $permisos
+            'link'          => $link,
+            'childrens'     => $childrens,
         ]);
     }
 
