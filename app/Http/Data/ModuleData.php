@@ -70,8 +70,8 @@ class ModuleData extends Controller
                 $da->children[$i] = [
                     'title'     => $children->nombre,
                     'icon'      => $children->icon,
-                    'link'      => $children->link,
-                    'hidden'    => $children->visible,
+                    'link'      => $da->link.$children->link,
+                    'hidden'    => !$children->visible,
                     'expanded'  => false,
                 ];
                 $i = $i + 1;
