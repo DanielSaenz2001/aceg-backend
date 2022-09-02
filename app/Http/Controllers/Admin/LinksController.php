@@ -79,9 +79,16 @@ class LinksController extends Controller
 
     public function destroy($id)
     {
-        $data = Link::findOrFail($id)->delete();
+        $data = Link::findOrFail($id);
 
-        return response()->json($data, 200);
+        if($data->padre_id == null){
+            $data->delete();
+            return $this->index();
+        }else{
+            $data->delete();
+            return $this->show($data->padre_id);
+        }
+
     }
 
     /* Links Permisos */
@@ -93,7 +100,10 @@ class LinksController extends Controller
         $plink->link_id     = $id_link;
         $plink->save();
 
-        return $this->show($id_link);
+        
+        $link = Link::findOrFail($id_link);
+
+        return $this->show($link->padre_id);
     }
 
     public function deletePermiso($id_link, $id_permiso){
@@ -106,8 +116,8 @@ class LinksController extends Controller
                 'message'   => 'No se encontro ese registro.'
             ], 404);
         }
+        $link = Link::findOrFail($id_link);
 
-        return $this->show($id_link);
+        return $this->show($link->padre_id);
     }
-
 }
