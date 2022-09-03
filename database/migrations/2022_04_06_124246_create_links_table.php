@@ -41,9 +41,6 @@ class CreateLinksTable extends Migration
                     'visible'   => true,
                     'orden'     => '1',
                     'padre_id'  => null,
-                    'usuario'   => 'aceg.admin',
-                    'creado'    => $miTiempo,
-                    'modificado'=> $miTiempo
                 ],
                 [
                     'nombre'      => 'Administración de Usuarios',
@@ -52,9 +49,6 @@ class CreateLinksTable extends Migration
                     'visible'   => true,
                     'orden'     => '1',
                     'padre_id'  => 1,
-                    'usuario'   => 'aceg.admin',
-                    'creado'    => $miTiempo,
-                    'modificado'=> $miTiempo
                 ],
                 [
                     'nombre'      => 'Administración de Rutas',
@@ -63,9 +57,6 @@ class CreateLinksTable extends Migration
                     'visible'   => true,
                     'orden'     => '2',
                     'padre_id'  => 1,
-                    'usuario'   => 'aceg.admin',
-                    'creado'    => $miTiempo,
-                    'modificado'=> $miTiempo
                 ],
                 [
                     'nombre'      => 'Administración de Permisos',
@@ -74,9 +65,6 @@ class CreateLinksTable extends Migration
                     'visible'   => true,
                     'orden'     => '3',
                     'padre_id'  => 1,
-                    'usuario'   => 'aceg.admin',
-                    'creado'    => $miTiempo,
-                    'modificado'=> $miTiempo
                 ]
             ]
         );

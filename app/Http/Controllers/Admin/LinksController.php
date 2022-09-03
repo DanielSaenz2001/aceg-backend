@@ -46,18 +46,57 @@ class LinksController extends Controller
         ]);
     }
 
+    public function showChildren($id)
+    {
+        $link       = Link::findOrFail($id);
+
+        $permisosLinks = PermisoLink::join('permisos', 'permisos.id', 'permiso_links.permiso_id')
+        ->where('permiso_links.link_id', $id)
+        ->select('permisos.*')->get();
+
+        $linksAvoid = [];
+
+        for ($i=0; $i < count($permisosLinks); $i++) {
+            $linksAvoid[$i] = $permisosLinks[$i]['id'];
+        }
+
+        $permisos = Permiso::whereNotIn('id', $linksAvoid)->where('activo', true)->get();
+
+        $link->permisosLinks    = $permisosLinks;
+        $link->permisos         = $permisos;
+
+        return response()->json($link);
+    }
+
     public function create(Request $request)
     {
         $miTiempo = Carbon::now();
 
         $link = new Link();
-        $link->link     = $request->link;
-        $link->orden    = $request->orden;
-        $link->icon     = $request->icon;
-        $link->visible  = true;
-        $link->padre_id = $request->padre_id;
+        $link->nombre     = $request->nombre;
+        $link->link       = $request->link;
+        $link->orden      = $request->orden;
+        $link->icon       = $request->icon;
+        $link->visible    = true;
+        $link->padre_id   = $request->padre_id;
 
         $link->save();
+
+        $permisosLinks = PermisoLink::join('permisos', 'permisos.id', 'permiso_links.permiso_id')
+        ->where('permiso_links.link_id', $link->id)
+        ->select('permisos.*')->get();
+
+        $linksAvoid = [];
+
+        for ($i=0; $i < count($permisosLinks); $i++) {
+            $linksAvoid[$i] = $permisosLinks[$i]['id'];
+        }
+
+        $permisos = Permiso::whereNotIn('id', $linksAvoid)->where('activo', true)->get();
+
+        $link->permisosLinks    = $permisosLinks;
+        $link->permisos         = $permisos;
+
 
         return response()->json($link, 200);
     }
@@ -67,12 +106,29 @@ class LinksController extends Controller
         $miTiempo = Carbon::now();
 
         $link = Link::findOrFail($id);
-        $link->link     = $request->link;
-        $link->icon     = $request->icon;
-        $link->visible  = $request->visible;
-        $link->orden    = $request->orden;
+        $link->nombre     = $request->nombre;
+        $link->link       = $request->link;
+        $link->icon       = $request->icon;
+        $link->visible    = $request->visible;
+        $link->orden      = $request->orden;
 
         $link->save();
+
+        $permisosLinks = PermisoLink::join('permisos', 'permisos.id', 'permiso_links.permiso_id')
+        ->where('permiso_links.link_id', $id)
+        ->select('permisos.*')->get();
+
+        $linksAvoid = [];
+
+        for ($i=0; $i < count($permisosLinks); $i++) {
+            $linksAvoid[$i] = $permisosLinks[$i]['id'];
+        }
+
+        $permisos = Permiso::whereNotIn('id', $linksAvoid)->where('activo', true)->get();
+
+        $link->permisosLinks    = $permisosLinks;
+        $link->permisos         = $permisos;
+
 
         return response()->json($link, 200);
     }
@@ -100,10 +156,7 @@ class LinksController extends Controller
         $plink->link_id     = $id_link;
         $plink->save();
 
-        
-        $link = Link::findOrFail($id_link);
-
-        return $this->show($link->padre_id);
+        return $this->showChildren($id_link);
     }
 
     public function deletePermiso($id_link, $id_permiso){
@@ -116,8 +169,7 @@ class LinksController extends Controller
                 'message'   => 'No se encontro ese registro.'
             ], 404);
         }
-        $link = Link::findOrFail($id_link);
 
-        return $this->show($link->padre_id);
+        return $this->showChildren($id_link);
     }
 }

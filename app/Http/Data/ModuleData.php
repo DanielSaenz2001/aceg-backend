@@ -61,7 +61,8 @@ class ModuleData extends Controller
             ->join('links', 'links.id', "permiso_links.link_id")
             ->where('links.padre_id', $da->id)
             ->where('permiso_users.user_id', $user_id)
-            ->select('links.*')->get();
+            ->select('links.*')
+            ->groupBy('links.id')->orderBy('links.orden', 'ASC')->get();
 
             $da->children = [];
 
