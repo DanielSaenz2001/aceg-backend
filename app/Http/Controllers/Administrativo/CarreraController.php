@@ -10,10 +10,11 @@ use App\Models\Administrativo\Facultad;
 class CarreraController extends Controller
 {
     public function index(){
+        $facultas  = Facultad::all();
 
         $carreras  = Carrera::join('facultades', 'facultades.id', 'carreras.facultad_id')
-        ->select('carreras.*', 'facultades.nombre as facultad')->get();
-        $facultas  = Facultad::all();
+        ->select('carreras.id', 'carreras.nombre', 'carreras.codigo', 'carreras.estado'
+        , 'carreras.facultad_id','facultades.nombre as facultad')->get();
 
         return response()->json([
             'carreras' => $carreras,
