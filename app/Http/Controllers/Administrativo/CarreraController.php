@@ -41,6 +41,10 @@ class CarreraController extends Controller
 
         $carrera->save();
 
+        $facultas  = Facultad::findOrFail($request->facultad_id);
+
+        $carrera->facultad = $facultas->nombre;
+
         return response()->json($carrera, 200);
     }
 
@@ -51,6 +55,10 @@ class CarreraController extends Controller
         $carrera->codigo       = $request->codigo;
         $carrera->estado       = $request->estado;
         $carrera->facultad_id  = $request->facultad_id;
+
+        $facultas  = Facultad::findOrFail($request->facultad_id);
+
+        $carrera->facultad = $facultas->nombre;
 
         $carrera->save();
 
