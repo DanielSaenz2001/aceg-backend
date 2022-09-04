@@ -9,7 +9,7 @@ class Carrera extends Model{
 
     public $timestamps = false;
     
-    protected $table = 'facultades';
+    protected $table = 'carreras';
     protected $primaryKey = 'id';
     protected $guarded = ["id"];
 
@@ -18,6 +18,7 @@ class Carrera extends Model{
         'nombre',
         'codigo',
         'estado',
+        'facultad_id'
     ];
     
     protected $casts = [
