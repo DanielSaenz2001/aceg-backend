@@ -12,7 +12,7 @@ class CarreraController extends Controller
     public function index(){
 
         $carreras  = Carrera::join('facultades', 'facultades.id', 'carreras.facultad_id')
-        ->select('carreras.*', 'facultades.nombre');
+        ->select('carreras.*', 'facultades.nombre as facultad');
         $facultas  = Facultad::all();
 
         return response()->json([
