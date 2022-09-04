@@ -14,6 +14,7 @@ use App\Http\Controllers\Administrativo\SemestreController;
 use App\Http\Controllers\Administrativo\SedeController;
 use App\Http\Controllers\Administrativo\FacultadController;
 use App\Http\Controllers\Administrativo\CarreraController;
+use App\Http\Controllers\Administrativo\GestionController;
 
 Route::group([
     'middleware' => 'api'
@@ -88,5 +89,9 @@ Route::prefix('carreras')->group(function ($router) {
     Route::post('',                 [CarreraController::class, 'create']);
     Route::put('{id}',              [CarreraController::class, 'update']);
     Route::delete('{id}',           [CarreraController::class, 'destroy']);
+});
+
+Route::prefix('administrativo/gestion')->group(function ($router) {
+    Route::get('sedes',             [GestionController::class, 'index']);
 });
 
