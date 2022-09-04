@@ -5,14 +5,19 @@ namespace App\Http\Controllers\Administrativo;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Administrativo\Carrera;
+use App\Models\Administrativo\Facultad;
 
 class CarreraController extends Controller
 {
     public function index(){
 
         $carreras  = Carrera::all();
+        $facultas  = Facultad::all();
 
-        return response()->json($carreras);
+        return response()->json([
+            'carreras' => $carreras,
+            'facultas' => $facultas
+        ], 200);
     }
 
     public function show($id){
