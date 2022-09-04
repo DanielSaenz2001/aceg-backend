@@ -33,11 +33,7 @@ class SemestreController extends Controller
 
         $semestre->save();
 
-        return response()->json(array(
-            'code'      =>  200,
-            'data'      => 'Ok',
-            'message'   => "Semestre creado con exito."
-        ), 200);
+        return response()->json($semestre, 200);
     }
 
     public function update($id, Request $request){
@@ -48,11 +44,7 @@ class SemestreController extends Controller
 
         $semestre->save();
 
-        return response()->json(array(
-            'code'      => 200,
-            'data'      => 'Ok',
-            'message'   => "Semestre Actualizado."
-        ), 200);
+        return response()->json($semestre, 200);
     }
 
     public function destroy($id){

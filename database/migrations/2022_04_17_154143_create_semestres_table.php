@@ -37,7 +37,7 @@ class CreateSemestresTable extends Migration
                     'estado' => true,
                 ],
                 [
-                    'nombre' => '2022-3',
+                    'nombre' => '2022-M',
                     'estado' => true,
                 ]
             ]

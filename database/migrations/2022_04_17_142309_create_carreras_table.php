@@ -18,6 +18,8 @@ class CreateCarrerasTable extends Migration
             $table->string('nombre')->unique();
             $table->string('codigo')->unique();
             $table->boolean('estado');
+            $table->unsignedInteger('facultad_id');
+            $table->foreign('facultad_id')->references('id')->on('facultades');
 
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
@@ -29,11 +31,13 @@ class CreateCarrerasTable extends Migration
                     'nombre'        => 'Cocina',
                     'codigo'        => 'Cook',
                     'estado'        => true,
+                    'facultad_id'   => 1,
                 ],
                 [//2
                     'nombre'        => 'Panaderia y Pasteleria',
                     'codigo'        => 'Panederia',
                     'estado'        => true,
+                    'facultad_id'   => 1,
                 ]
             ]
         );

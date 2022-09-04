@@ -27,7 +27,7 @@ class CreateFacultadesTable extends Migration
             [
                 [//1
                     'nombre'        => 'Gastronomía',
-                    'codigo'        => 'Gastronomía',
+                    'codigo'        => 'FGt',
                     'estado'        => true,
                 ]
             ]

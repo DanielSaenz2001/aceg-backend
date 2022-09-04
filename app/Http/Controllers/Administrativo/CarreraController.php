@@ -30,14 +30,11 @@ class CarreraController extends Controller
         $carrera->nombre       = $request->nombre;
         $carrera->codigo       = $request->codigo;
         $carrera->estado       = $request->estado;
+        $carrera->facultad_id  = $request->facultad_id;
 
         $carrera->save();
 
-        return response()->json(array(
-            'code'      =>  200,
-            'data'      => 'Ok',
-            'message'   => "Carrera creada con exito."
-        ), 200);
+        return response()->json($carrera, 200);
     }
 
     public function update($id, Request $request){
@@ -46,14 +43,11 @@ class CarreraController extends Controller
         $carrera->nombre       = $request->nombre;
         $carrera->codigo       = $request->codigo;
         $carrera->estado       = $request->estado;
+        $carrera->facultad_id  = $request->facultad_id;
 
         $carrera->save();
 
-        return response()->json(array(
-            'code'      => 200,
-            'data'      => 'Ok',
-            'message'   => "Carrera Actualizado."
-        ), 200);
+        return response()->json($carrera, 200);
     }
 
     public function destroy($id){
