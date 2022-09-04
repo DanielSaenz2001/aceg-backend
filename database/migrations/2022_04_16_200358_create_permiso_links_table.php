@@ -29,17 +29,33 @@ class CreatePermisoLinksTable extends Migration
 
         DB::table('permiso_links')->insert(
             [
-                [
+                [//1
                     'link_id' => 2,
                     'permiso_id' => 1,
                 ],
-                [
+                [//2
                     'link_id' => 3,
                     'permiso_id' => 2,
                 ],
-                [
+                [//3
                     'link_id' => 4,
                     'permiso_id' => 3,
+                ],
+                [//4
+                    'link_id' => 6,
+                    'permiso_id' => 4,
+                ],
+                [//5
+                    'link_id' => 7,
+                    'permiso_id' => 5,
+                ],
+                [//6
+                    'link_id' => 8,
+                    'permiso_id' => 6,
+                ],
+                [//7
+                    'link_id' => 9,
+                    'permiso_id' => 7,
                 ]
             ]
         );

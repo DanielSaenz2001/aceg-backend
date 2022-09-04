@@ -18,11 +18,9 @@ class Facultad extends Model{
         'nombre',
         'codigo',
         'estado',
-        'sede_id',
     ];
     
     protected $casts = [
         'estado'  => 'boolean',
-        'sede_id' => 'integer',
     ];
 }

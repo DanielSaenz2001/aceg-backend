@@ -18,12 +18,10 @@ class Carrera extends Model{
         'nombre',
         'codigo',
         'estado',
-        'facultad_id',
     ];
     
     protected $casts = [
         'estado'      => 'boolean',
-        'facultad_id' => 'integer',
     ];
 
 }

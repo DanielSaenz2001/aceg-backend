@@ -18,16 +18,20 @@ class CreateFacultadesTable extends Migration
             $table->string('nombre')->unique();
             $table->string('codigo')->unique();
             $table->boolean('estado');
-            $table->unsignedInteger('sede_id');
-            $table->string('usuario')->nullable();
-            $table->timestamp('creado')->nullable();
-            $table->timestamp('modificado')->nullable();
-
-            $table->foreign('sede_id')->references('id')->on('sedes');
 
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
         });
+
+        DB::table('facultades')->insert(
+            [
+                [//1
+                    'nombre'        => 'Gastronomía',
+                    'codigo'        => 'Gastronomía',
+                    'estado'        => true,
+                ]
+            ]
+        );
     }
 
     /**

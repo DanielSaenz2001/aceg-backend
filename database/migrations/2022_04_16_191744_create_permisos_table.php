@@ -25,19 +25,39 @@ class CreatePermisosTable extends Migration
 
         DB::table('permisos')->insert(
             [
-                [
+                [//1
                     'nombre' => 'Administración de Usuarios',
                     'codigo' => 'GUsuarios',
                     'activo' => true
                 ],
-                [
+                [//2
                     'nombre' => 'Administración de Rutas',
                     'codigo' => 'GRutas',
                     'activo' => true
                 ],
-                [
+                [//3
                     'nombre' => 'Administración de Permisos',
                     'codigo' => 'GPermisos',
+                    'activo' => true
+                ],
+                [//4
+                    'nombre' => 'Administración de Sedes',
+                    'codigo' => 'GSedes',
+                    'activo' => true
+                ],
+                [//5
+                    'nombre' => 'Administración de Facultades',
+                    'codigo' => 'GFacultades',
+                    'activo' => true
+                ],
+                [//6
+                    'nombre' => 'Administración de Carreras',
+                    'codigo' => 'GCarreras',
+                    'activo' => true
+                ],
+                [//7
+                    'nombre' => 'Administración de Semestres',
+                    'codigo' => 'GSemestres',
                     'activo' => true
                 ]
             ]

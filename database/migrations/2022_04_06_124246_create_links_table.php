@@ -33,16 +33,16 @@ class CreateLinksTable extends Migration
 
         DB::table('links')->insert(
             [
-
-                [
+                // Configuración
+                [ //1
                     'nombre'    => 'Configuración',
                     'link'      => '/configuracion',
                     'icon'      => 'settings-2-outline',
                     'visible'   => true,
-                    'orden'     => '1',
+                    'orden'     => '5',
                     'padre_id'  => null,
                 ],
-                [
+                [ //2
                     'nombre'      => 'Administración de Usuarios',
                     'link'      => '/usuarios',
                     'icon'      => 'people-outline',
@@ -50,7 +50,7 @@ class CreateLinksTable extends Migration
                     'orden'     => '1',
                     'padre_id'  => 1,
                 ],
-                [
+                [ //3
                     'nombre'      => 'Administración de Rutas',
                     'link'      => '/links',
                     'icon'      => 'link-2-outline',
@@ -58,13 +58,54 @@ class CreateLinksTable extends Migration
                     'orden'     => '2',
                     'padre_id'  => 1,
                 ],
-                [
+                [ //4
                     'nombre'      => 'Administración de Permisos',
                     'link'      => '/permisos',
                     'icon'      => 'shield-outline',
                     'visible'   => true,
                     'orden'     => '3',
                     'padre_id'  => 1,
+                ],
+                // Administrativo
+                [ //5
+                    'nombre'    => 'Administrativo',
+                    'link'      => '/administrativo',
+                    'icon'      => 'npm-outline',
+                    'visible'   => true,
+                    'orden'     => '4',
+                    'padre_id'  => null,
+                ],
+                [ //6
+                    'nombre'      => 'Gestión de Sedes',
+                    'link'      => '/sedes',
+                    'icon'      => 'home-outline',
+                    'visible'   => true,
+                    'orden'     => '1',
+                    'padre_id'  => 5,
+                ],
+                [ //7
+                    'nombre'      => 'Gestión de Facultades',
+                    'link'      => '/facultades',
+                    'icon'      => 'layout-outline',
+                    'visible'   => true,
+                    'orden'     => '2',
+                    'padre_id'  => 5,
+                ],
+                [ //8
+                    'nombre'      => 'Gestión de Carreras',
+                    'link'      => '/carreras',
+                    'icon'      => 'book-outline',
+                    'visible'   => true,
+                    'orden'     => '3',
+                    'padre_id'  => 5,
+                ],
+                [ //9
+                    'nombre'      => 'Gestión de Semestres',
+                    'link'      => '/semestres',
+                    'icon'      => 'calendar-outline',
+                    'visible'   => true,
+                    'orden'     => '3',
+                    'padre_id'  => 5,
                 ]
             ]
         );

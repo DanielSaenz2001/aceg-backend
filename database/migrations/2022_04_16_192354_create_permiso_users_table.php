@@ -29,17 +29,33 @@ class CreatePermisoUsersTable extends Migration
 
         DB::table('permiso_users')->insert(
             [
-                [
+                [//1
                     'user_id' => 1,
                     'permiso_id' => 1,
                 ],
-                [
+                [//2
                     'user_id' => 1,
                     'permiso_id' => 2,
                 ],
-                [
+                [//3
                     'user_id' => 1,
                     'permiso_id' => 3,
+                ],
+                [//4
+                    'user_id' => 1,
+                    'permiso_id' => 4,
+                ],
+                [//5
+                    'user_id' => 1,
+                    'permiso_id' => 5,
+                ],
+                [//6
+                    'user_id' => 1,
+                    'permiso_id' => 6,
+                ],
+                [//7
+                    'user_id' => 1,
+                    'permiso_id' => 7,
                 ]
             ]
         );
