@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class CreateSemestresTable extends Migration
@@ -15,8 +14,6 @@ class CreateSemestresTable extends Migration
      */
     public function up()
     {
-        $miTiempo = Carbon::now();
-
         Schema::create('semestres', function (Blueprint $table) {
             $table->unsignedInteger('id')->autoIncrement();
             $table->string('nombre', 9)->unique();

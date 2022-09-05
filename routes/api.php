@@ -14,6 +14,7 @@ use App\Http\Controllers\Administrativo\SemestreController;
 use App\Http\Controllers\Administrativo\SedeController;
 use App\Http\Controllers\Administrativo\FacultadController;
 use App\Http\Controllers\Administrativo\CarreraController;
+use App\Http\Controllers\Administrativo\CursoController;
 use App\Http\Controllers\Administrativo\GestionController;
 
 Route::group([
@@ -89,6 +90,14 @@ Route::prefix('carreras')->group(function ($router) {
     Route::post('',                 [CarreraController::class, 'create']);
     Route::put('{id}',              [CarreraController::class, 'update']);
     Route::delete('{id}',           [CarreraController::class, 'destroy']);
+});
+
+Route::prefix('cursos')->group(function ($router) {
+    Route::get('',                  [CursoController::class, 'index']);
+    Route::get('{id}',              [CursoController::class, 'show']);
+    Route::post('',                 [CursoController::class, 'create']);
+    Route::put('{id}',              [CursoController::class, 'update']);
+    Route::delete('{id}',           [CursoController::class, 'destroy']);
 });
 
 Route::prefix('administrativo/gestion')->group(function ($router) {

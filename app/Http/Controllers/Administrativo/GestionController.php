@@ -7,5 +7,9 @@ use Illuminate\Http\Request;
 
 class GestionController extends Controller
 {
-    //
+    public function getSedes(){
+        $sedes  = Sede::all();
+
+        return response()->json($sedes);
+    }
 }

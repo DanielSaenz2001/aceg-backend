@@ -15,18 +15,14 @@ class CreatePlanAcademicoTable extends Migration
     {
         Schema::create('plan_academico', function (Blueprint $table) {
             $table->unsignedInteger('id')->autoIncrement();
-            $table->unsignedInteger('carrera_id');
+            $table->unsignedInteger('facultad_carrera_id');
             $table->unsignedInteger('semestre_id');
             $table->boolean('estado');
 
-            $table->string('usuario')->nullable();
-            $table->timestamp('creado')->nullable();
-            $table->timestamp('modificado')->nullable();
-
             $table->foreign('semestre_id')->references('id')->on('semestres');
-            $table->foreign('carrera_id')->references('id')->on('carreras');
+            $table->foreign('facultad_carrera_id')->references('id')->on('facultades_carreras');
             
-            $table->unique('carrera_id', 'semestre_id');
+            $table->unique('facultad_carrera_id', 'semestre_id');
 
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
