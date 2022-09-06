@@ -17,6 +17,7 @@ class CreateSedesFacultadesTable extends Migration
             $table->unsignedInteger('id')->autoIncrement();
             $table->unsignedInteger('sede_id');
             $table->unsignedInteger('facultad_id');
+            $table->boolean('estado');
 
             $table->foreign('facultad_id')->references('id')->on('facultades');
             $table->foreign('sede_id')->references('id')->on('sedes');
@@ -32,6 +33,7 @@ class CreateSedesFacultadesTable extends Migration
                 [//1
                     'facultad_id'   => 1,
                     'sede_id'       => 1,
+                    'estado'        => true,
                 ],
             ]
         );

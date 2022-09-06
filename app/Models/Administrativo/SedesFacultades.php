@@ -18,6 +18,7 @@ class SedesFacultades extends Model
         'id',
         'sede_id',
         'facultad_id',
+        'estado',
     ];
     
     protected $casts = [

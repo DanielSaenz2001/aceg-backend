@@ -106,6 +106,22 @@ class CreateLinksTable extends Migration
                     'visible'   => true,
                     'orden'     => '3',
                     'padre_id'  => 5,
+                ],
+                [ //10
+                    'nombre'      => 'Gestión de Cursos',
+                    'link'      => '/cursos',
+                    'icon'      => 'calendar-outline',
+                    'visible'   => true,
+                    'orden'     => '4',
+                    'padre_id'  => 5,
+                ],
+                [ //11
+                    'nombre'      => 'Gestión de Instituto',
+                    'link'      => '/instituto',
+                    'icon'      => 'calendar-outline',
+                    'visible'   => true,
+                    'orden'     => '1',
+                    'padre_id'  => 5,
                 ]
             ]
         );

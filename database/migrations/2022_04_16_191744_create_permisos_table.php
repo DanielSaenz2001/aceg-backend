@@ -59,6 +59,16 @@ class CreatePermisosTable extends Migration
                     'nombre' => 'Administración de Semestres',
                     'codigo' => 'GSemestres',
                     'activo' => true
+                ],
+                [//8
+                    'nombre' => 'Administración de Cursos',
+                    'codigo' => 'GCursos',
+                    'activo' => true
+                ],
+                [//9
+                    'nombre' => 'Gestión de Instituto',
+                    'codigo' => 'GInstituto',
+                    'activo' => true
                 ]
             ]
         );

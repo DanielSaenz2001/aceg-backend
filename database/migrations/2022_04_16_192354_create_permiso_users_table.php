@@ -56,6 +56,14 @@ class CreatePermisoUsersTable extends Migration
                 [//7
                     'user_id' => 1,
                     'permiso_id' => 7,
+                ],
+                [//8
+                    'user_id' => 1,
+                    'permiso_id' => 8,
+                ],
+                [//9
+                    'user_id' => 1,
+                    'permiso_id' => 9,
                 ]
             ]
         );

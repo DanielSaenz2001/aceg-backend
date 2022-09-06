@@ -18,6 +18,7 @@ class FacultadesCarreras extends Model
         'id',
         'sede_facultad_id',
         'carrera_id',
+        'estado',
     ];
     
     protected $casts = [

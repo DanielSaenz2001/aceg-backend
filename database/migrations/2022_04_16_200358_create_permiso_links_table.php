@@ -56,6 +56,14 @@ class CreatePermisoLinksTable extends Migration
                 [//7
                     'link_id' => 9,
                     'permiso_id' => 7,
+                ],
+                [//8
+                    'link_id' => 10,
+                    'permiso_id' => 8,
+                ],
+                [//9
+                    'link_id' => 11,
+                    'permiso_id' => 9,
                 ]
             ]
         );

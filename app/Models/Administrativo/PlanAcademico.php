@@ -15,14 +15,14 @@ class PlanAcademico extends Model{
 
     protected $fillable = [
         'id',
-        'estado',
         'semestre_id',
-        'carrera_id',
+        'facultad_carrera_id',
+        'estado',
     ];
     
     protected $casts = [
-        'estado'     => 'boolean',
-        'carrera_id' => 'integer',
-        'carrera_id' => 'integer',
+        'estado'                => 'boolean',
+        'semestre_id'           => 'integer',
+        'facultad_carrera_id'   => 'integer',
     ];
 }

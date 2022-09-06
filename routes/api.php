@@ -101,6 +101,18 @@ Route::prefix('cursos')->group(function ($router) {
 });
 
 Route::prefix('administrativo/gestion')->group(function ($router) {
-    Route::get('sedes',             [GestionController::class, 'index']);
+    Route::get('sedes',             [GestionController::class, 'getSedes']);
+    Route::get('facultad/{id}',     [GestionController::class, 'getFacultadesDetailSede']);
+    Route::post('facultad',         [GestionController::class, 'addFacultadesSede']);
+    Route::put('facultad/{id}',     [GestionController::class, 'updateFacultadesSede']);
+    Route::delete('facultad/{id}',  [GestionController::class, 'deleteFacultadesSede']);
+    Route::get('carrera/{id}',      [GestionController::class, 'getCarrerasDetailFacultad']);
+    Route::post('carrera',          [GestionController::class, 'addCarrerasFacultad']);
+    Route::put('carrera/{id}',      [GestionController::class, 'updateCarrerasFacultad']);
+    Route::delete('carrera/{id}',   [GestionController::class, 'deleteCarrerasFacultad']);
+    Route::get('planes/{id}',       [GestionController::class, 'getPlanesDetailCarrera']);
+    Route::post('planes',           [GestionController::class, 'addPlanesCarrera']);
+    Route::put('planes/{id}',       [GestionController::class, 'updatePlanesCarrera']);
+    Route::delete('planes/{id}',    [GestionController::class, 'deletePlanesCarrera']);
 });
 

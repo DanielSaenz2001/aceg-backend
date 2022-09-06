@@ -17,6 +17,7 @@ class CreateFacultadesCarrerasTable extends Migration
             $table->unsignedInteger('id')->autoIncrement();
             $table->unsignedInteger('sede_facultad_id');
             $table->unsignedInteger('carrera_id');
+            $table->boolean('estado');
 
             $table->foreign('sede_facultad_id')->references('id')->on('sedes_facultades');
             $table->foreign('carrera_id')->references('id')->on('carreras');
@@ -32,10 +33,12 @@ class CreateFacultadesCarrerasTable extends Migration
                 [//1
                     'sede_facultad_id'   => 1,
                     'carrera_id'         => 1,
+                    'estado'             => true,
                 ],
                 [//2
                     'sede_facultad_id'   => 1,
                     'carrera_id'         => 2,
+                    'estado'             => true,
                 ],
             ]
         );
