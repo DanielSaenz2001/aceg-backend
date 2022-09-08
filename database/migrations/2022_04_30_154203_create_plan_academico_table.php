@@ -27,13 +27,25 @@ class CreatePlanAcademicoTable extends Migration
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
         });
+        
+        DB::table('plan_academico')->insert(
+            [
+                [//1
+                    'facultad_carrera_id'   => 1,
+                    'semestre_id'           => 1,
+                    'estado'                => true,
+                ],
+                [//2
+                    'facultad_carrera_id'   => 2,
+                    'semestre_id'           => 1,
+                    'estado'                => true,
+                ],
+            ]
+        );
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+
+    
     public function down()
     {
         Schema::dropIfExists('plan_academico');

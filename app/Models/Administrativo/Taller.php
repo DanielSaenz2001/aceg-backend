@@ -18,6 +18,7 @@ class Taller extends Model
         'id',
         'nombre',
         'tipo',
+        'descripcion',
         'estado',
     ];
     

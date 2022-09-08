@@ -11,6 +11,8 @@ use App\Models\Administrativo\FacultadesCarreras;
 use App\Models\Administrativo\Carrera;
 use App\Models\Administrativo\PlanAcademico;
 use App\Models\Administrativo\Semestre;
+use App\Models\Administrativo\PlanPeriodo;
+use App\Models\Administrativo\PlanCurso;
 
 class GestionController extends Controller
 {
@@ -107,7 +109,7 @@ class GestionController extends Controller
         
         $facultadCarrera->save();
 
-        return $this->getCarrerasDetailFacultad($request->facultad_id);
+        return $this->getCarrerasDetailFacultad($request->sede_facultad_id);
     }
 
     public function updateCarrerasFacultad($id, Request $request){
@@ -118,7 +120,7 @@ class GestionController extends Controller
         
         $facultadCarrera->save();
 
-        return $this->getCarrerasDetailFacultad($facultadCarrera->facultad_id);
+        return $this->getCarrerasDetailFacultad($facultadCarrera->sede_facultad_id);
     }
 
     public function deleteCarrerasFacultad($id, Request $request){
@@ -126,7 +128,7 @@ class GestionController extends Controller
 
         $facultadCarrera->delete();
 
-        return $this->getCarrerasDetailFacultad($facultadCarrera->facultad_id);
+        return $this->getCarrerasDetailFacultad($facultadCarrera->sede_facultad_id);
     }
 
     public function getPlanesDetailCarrera($carrera_id){
@@ -136,7 +138,7 @@ class GestionController extends Controller
         ->where('plan_academico.facultad_carrera_id', $carrera_id)
         ->select('semestres.*', 'plan_academico.semestre_id as sede_facul_semestre_id'
         , 'plan_academico.facultad_carrera_id as sede_facul_facultad_carrera_id', 'plan_academico.id as sede_facul_id'
-        , 'plan_academico.estado as sede_facul_estado')->get();
+        , 'plan_academico.estado as sede_facul_estado')->orderBy('semestres.semestre', 'ASC')->get();
 
         $planesAvoid = [];
 
@@ -162,7 +164,7 @@ class GestionController extends Controller
         
         $planAcademico->save();
 
-        return $this->getCarrerasDetailFacultad($request->facultad_id);
+        return $this->getCarrerasDetailFacultad($request->facultad_carrera_id);
     }
 
     public function updatePlanesCarrera($id, Request $request){
@@ -173,7 +175,7 @@ class GestionController extends Controller
         
         $planAcademico->save();
 
-        return $this->getCarrerasDetailFacultad($facultadCarrera->facultad_id);
+        return $this->getCarrerasDetailFacultad($facultadCarrera->facultad_carrera_id);
     }
 
     public function deletePlanesCarrera($id, Request $request){
@@ -181,6 +183,57 @@ class GestionController extends Controller
 
         $planAcademico->delete();
 
-        return $this->getCarrerasDetailFacultad($planAcademico->facultad_id);
+        return $this->getCarrerasDetailFacultad($planAcademico->facultad_carrera_id);
+    }
+
+    public function getPeriodosDetailPlan($plan_id){
+        $plan        = PlanAcademico::findOrFail($plan_id);
+
+        $MyPeriodos  = PlanPeriodo::where('plan_academico_id', $plan_id)
+        ->orderBy('periodo', 'ASC')->get();
+
+        foreach ($MyPeriodos as $periodo) {
+            $periodo->cursos = PlanCurso::join('cursos', 'cursos.id', 'plan_cursos.curso_id')
+            ->where('plan_cursos.plan_periodo_id', $periodo->id)
+            ->select('cursos.*', 'plan_cursos.id as pl_curs_id', 'plan_cursos.plan_periodo_id as pl_curs_plan_periodo_id',
+            'plan_cursos.curso_id as pl_curs_curso_id', 'plan_cursos.creditos as pl_curs_creditos', 
+            'plan_cursos.hora_teorica as pl_curs_hora_teorica', 'plan_cursos.hora_practica as pl_curs_hora_practica', 
+            'plan_cursos.nota_minima as pl_curs_nota_minima')
+            ->orderBy('cursos.nombre', 'ASC')->get();
+        }
+
+        return response()->json([
+            'plan'          => $plan,
+            'MyPeriodos'    => $MyPeriodos,
+        ], 200);
+    }
+
+    public function addPeriodosplan(Request $request){
+        $planPeriodo = new PlanPeriodo();
+
+        $planPeriodo->plan_academico_id     = $request->plan_academico_id;
+        $planPeriodo->periodo               = $request->periodo;
+        
+        $planPeriodo->save();
+
+        return $this->getPeriodosDetailPlan($request->plan_academico_id);
+    }
+
+    public function updatePeriodosplan($id, Request $request){
+        $planPeriodo = PlanPeriodo::findOrFail($id);
+
+        $planPeriodo->periodo               = $request->periodo;
+        
+        $planPeriodo->save();
+
+        return $this->getPeriodosDetailPlan($facultadCarrera->plan_academico_id);
+    }
+
+    public function deletePeriodosplan($id, Request $request){
+        $planPeriodo = PlanPeriodo::findOrFail($id);
+
+        $planPeriodo->delete();
+
+        return $this->getPeriodosDetailPlan($planPeriodo->plan_academico_id);
     }
 }

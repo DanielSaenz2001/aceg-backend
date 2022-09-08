@@ -26,9 +26,11 @@ class CursoController extends Controller
     public function create(Request $request){
 
         $curso = new Curso();
-        $curso->nombre       = $request->nombre;
-        $curso->tipo       = $request->nombre;
-        $curso->estado       = $request->estado;
+        $curso->nombre      = $request->nombre;
+        $curso->tipo        = $request->nombre;
+        $curso->sumilla     = $request->sumilla;
+        $curso->competencia = $request->competencia;
+        $curso->estado      = $request->estado;
 
         $curso->save();
 
@@ -38,9 +40,11 @@ class CursoController extends Controller
     public function update($id, Request $request){
         $curso = Curso::findOrFail($id);
 
-        $curso->nombre        = $request->nombre;
-        $curso->tipo          = $request->codigo;
-        $curso->estado        = $request->estado;
+        $curso->nombre          = $request->nombre;
+        $curso->tipo            = $request->codigo;
+        $curso->estado          = $request->estado;
+        $curso->sumilla         = $request->sumilla;
+        $curso->competencia     = $request->competencia;
 
         $curso->save();
 

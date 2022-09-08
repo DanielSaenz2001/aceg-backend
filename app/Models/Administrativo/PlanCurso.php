@@ -15,23 +15,20 @@ class PlanCurso extends Model{
 
     protected $fillable = [
         'id',
-        'nombre',
+        'plan_periodo_id',
+        'curso_id',
         'creditos',
         'hora_teorica',
         'hora_practica',
         'nota_minima',
-        'sumilla',
-        'competencia',
-        'plan_ciclo_id',
-        'estado',
     ];
     
     protected $casts = [
-        'estado'        => 'boolean',
         'creditos'      => 'integer',
         'hora_practica' => 'integer',
         'hora_teorica'  => 'integer',
         'nota_minima'   => 'integer',
-        'plan_ciclo_id' => 'integer',
+        'plan_periodo_id' => 'integer',
+        'curso_id' => 'integer',
     ];
 }

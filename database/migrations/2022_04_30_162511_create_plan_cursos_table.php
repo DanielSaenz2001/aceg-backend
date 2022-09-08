@@ -15,27 +15,35 @@ class CreatePlanCursosTable extends Migration
     {
         Schema::create('plan_cursos', function (Blueprint $table) {
             $table->unsignedInteger('id')->autoIncrement();
-            $table->string('nombre');
+            $table->unsignedInteger('plan_periodo_id');
+            $table->unsignedInteger('curso_id');
             $table->integer('creditos');
             $table->integer('hora_teorica');
             $table->integer('hora_practica');
             $table->integer('nota_minima');
-            $table->string('sumilla', 1230);
-            $table->string('competencia', 1230);
-            $table->unsignedInteger('plan_ciclo_id');
-            $table->boolean('estado');
 
-            $table->string('usuario')->nullable();
-            $table->timestamp('creado')->nullable();
-            $table->timestamp('modificado')->nullable();
 
-            $table->foreign('plan_ciclo_id')->references('id')->on('plan_ciclos');
+            $table->foreign('curso_id')->references('id')->on('cursos');
+            $table->foreign('plan_periodo_id')->references('id')->on('plan_periodos');
             
-            $table->unique('nombre', 'plan_ciclo_id');
+            $table->unique(['curso_id', 'plan_periodo_id']);
 
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
         });
+        
+        DB::table('plan_cursos')->insert(
+            [
+                [//1
+                    'plan_periodo_id'   => 1,
+                    'curso_id'          => 1,
+                    'creditos'          => 3,
+                    'hora_teorica'      => 2,
+                    'hora_practica'     => 0,
+                    'nota_minima'       => 13,
+                ],
+            ]
+        );
     }
 
     /**

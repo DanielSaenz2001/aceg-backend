@@ -19,6 +19,8 @@ class Curso extends Model
         'nombre',
         'codigo',
         'estado',
+        'sumilla',
+        'competencia',
     ];
     
     protected $casts = [
