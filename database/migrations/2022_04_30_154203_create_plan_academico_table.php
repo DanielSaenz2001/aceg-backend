@@ -22,7 +22,7 @@ class CreatePlanAcademicoTable extends Migration
             $table->foreign('semestre_id')->references('id')->on('semestres');
             $table->foreign('facultad_carrera_id')->references('id')->on('facultades_carreras');
             
-            $table->unique('facultad_carrera_id', 'semestre_id');
+            $table->unique(['facultad_carrera_id', 'semestre_id']);
 
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';

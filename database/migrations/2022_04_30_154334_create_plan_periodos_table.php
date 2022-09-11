@@ -20,7 +20,7 @@ class CreatePlanPeriodosTable extends Migration
 
             $table->foreign('plan_academico_id')->references('id')->on('plan_academico');
             
-            $table->unique('periodo', 'plan_academico_id');
+            $table->unique(['periodo', 'plan_academico_id']);
 
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
