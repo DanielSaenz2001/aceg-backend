@@ -138,7 +138,7 @@ class GestionController extends Controller
         ->where('plan_academico.facultad_carrera_id', $carrera_id)
         ->select('semestres.*', 'plan_academico.semestre_id as sede_facul_semestre_id'
         , 'plan_academico.facultad_carrera_id as sede_facul_facultad_carrera_id', 'plan_academico.id as sede_facul_id'
-        , 'plan_academico.estado as sede_facul_estado')->orderBy('semestres.semestre', 'ASC')->get();
+        , 'plan_academico.estado as sede_facul_estado')->orderBy('semestres.nombre', 'ASC')->get();
 
         $planesAvoid = [];
 
