@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class CursoController extends Controller
 {
     public function index(){
-        $cursos  = Curso::all();
+        $cursos  = Curso::paginate(25);
 
         return response()->json($cursos, 200);
     }

@@ -13,6 +13,7 @@ use App\Models\Administrativo\PlanAcademico;
 use App\Models\Administrativo\Semestre;
 use App\Models\Administrativo\PlanPeriodo;
 use App\Models\Administrativo\PlanCurso;
+use App\Models\Administrativo\Curso;
 
 class GestionController extends Controller
 {
@@ -81,9 +82,9 @@ class GestionController extends Controller
 
         $MyCarreras  = FacultadesCarreras::join('carreras', 'carreras.id', 'facultades_carreras.carrera_id')
         ->where('facultades_carreras.sede_facultad_id', $facultad_id)
-        ->select('carreras.*', 'facultades_carreras.sede_facultad_id as sede_facul_sede_facultad_id'
-        , 'facultades_carreras.carrera_id as sede_facul_carrera_id', 'facultades_carreras.id as sede_facul_id'
-        , 'facultades_carreras.estado as sede_facul_estado')->get();
+        ->select('carreras.*', 'facultades_carreras.sede_facultad_id as facul_carrera_facultad_id'
+        , 'facultades_carreras.carrera_id as facul_carrera_carrera_id', 'facultades_carreras.id as facul_carrera_id'
+        , 'facultades_carreras.estado as facul_carrera_estado')->get();
 
         $carrerasAvoid = [];
 
@@ -136,14 +137,14 @@ class GestionController extends Controller
 
         $MyPlanes  = PlanAcademico::join('semestres', 'semestres.id', 'plan_academico.semestre_id')
         ->where('plan_academico.facultad_carrera_id', $carrera_id)
-        ->select('semestres.*', 'plan_academico.semestre_id as sede_facul_semestre_id'
-        , 'plan_academico.facultad_carrera_id as sede_facul_facultad_carrera_id', 'plan_academico.id as sede_facul_id'
-        , 'plan_academico.estado as sede_facul_estado')->orderBy('semestres.nombre', 'ASC')->get();
+        ->select('semestres.*', 'plan_academico.semestre_id as plan_semes_semestre_id'
+        , 'plan_academico.facultad_carrera_id as plan_semes_facultad_carrera_id', 'plan_academico.id as plan_semes_id'
+        , 'plan_academico.estado as plan_semes_estado')->orderBy('semestres.nombre', 'ASC')->get();
 
         $planesAvoid = [];
 
         for ($i=0; $i < count($MyPlanes); $i++) {
-            $planesAvoid[$i] = $MyPlanes[$i]['sede_facul_semestre_id'];
+            $planesAvoid[$i] = $MyPlanes[$i]['id'];
         }
 
         $semestres = Semestre::whereNotIn('id', $planesAvoid)->where('estado', true)->get();
@@ -164,7 +165,7 @@ class GestionController extends Controller
         
         $planAcademico->save();
 
-        return $this->getCarrerasDetailFacultad($request->facultad_carrera_id);
+        return $this->getPlanesDetailCarrera($request->facultad_carrera_id);
     }
 
     public function updatePlanesCarrera($id, Request $request){
@@ -175,7 +176,7 @@ class GestionController extends Controller
         
         $planAcademico->save();
 
-        return $this->getCarrerasDetailFacultad($facultadCarrera->facultad_carrera_id);
+        return $this->getPlanesDetailCarrera($planAcademico->facultad_carrera_id);
     }
 
     public function deletePlanesCarrera($id, Request $request){
@@ -183,14 +184,18 @@ class GestionController extends Controller
 
         $planAcademico->delete();
 
-        return $this->getCarrerasDetailFacultad($planAcademico->facultad_carrera_id);
+        return $this->getPlanesDetailCarrera($planAcademico->facultad_carrera_id);
     }
 
     public function getPeriodosDetailPlan($plan_id){
-        $plan        = PlanAcademico::findOrFail($plan_id);
+        $plan        = PlanAcademico::join('semestres', 'semestres.id', 'plan_academico.semestre_id')
+        ->select('plan_academico.*', 'semestres.nombre')->findOrFail($plan_id);
 
         $MyPeriodos  = PlanPeriodo::where('plan_academico_id', $plan_id)
         ->orderBy('periodo', 'ASC')->get();
+
+        $cursosAvoid = [];
+        $i = 0;
 
         foreach ($MyPeriodos as $periodo) {
             $periodo->cursos = PlanCurso::join('cursos', 'cursos.id', 'plan_cursos.curso_id')
@@ -200,11 +205,20 @@ class GestionController extends Controller
             'plan_cursos.hora_teorica as pl_curs_hora_teorica', 'plan_cursos.hora_practica as pl_curs_hora_practica', 
             'plan_cursos.nota_minima as pl_curs_nota_minima')
             ->orderBy('cursos.nombre', 'ASC')->get();
+
+            foreach ($periodo->cursos as $curso) {
+                $cursosAvoid[$i] = $curso->id;
+                $i = $i + 1;
+            }
         }
+
+        $cursos = Curso::whereNotIn('id', $cursosAvoid)->where('estado', true)->get();
+
 
         return response()->json([
             'plan'          => $plan,
             'MyPeriodos'    => $MyPeriodos,
+            'cursos'        => $cursos,
         ], 200);
     }
 
@@ -230,10 +244,55 @@ class GestionController extends Controller
     }
 
     public function deletePeriodosplan($id, Request $request){
+        error_log($id);
         $planPeriodo = PlanPeriodo::findOrFail($id);
 
         $planPeriodo->delete();
 
         return $this->getPeriodosDetailPlan($planPeriodo->plan_academico_id);
+    }
+
+    public function getCarrerasDetailPeriodo($periodo_id){
+
+        $Mycursos = PlanCurso::join('cursos', 'cursos.id', 'plan_cursos.curso_id')
+        ->where('plan_cursos.plan_periodo_id', $periodo->id)
+        ->select('cursos.*', 'plan_cursos.id as pl_curs_id', 'plan_cursos.plan_periodo_id as pl_curs_plan_periodo_id',
+        'plan_cursos.curso_id as pl_curs_curso_id', 'plan_cursos.creditos as pl_curs_creditos', 
+        'plan_cursos.hora_teorica as pl_curs_hora_teorica', 'plan_cursos.hora_practica as pl_curs_hora_practica', 
+        'plan_cursos.nota_minima as pl_curs_nota_minima')
+        ->orderBy('cursos.nombre', 'ASC')->get();
+
+        $planPeriodo = PlanPeriodo::findOrFail($periodo_id);
+
+        $plan        = PlanAcademico::join('semestres', 'semestres.id', 'plan_academico.semestre_id')
+        ->select('plan_academico.*', 'semestres.nombre')->findOrFail($planPeriodo->id);
+
+        $MyPeriodos  = PlanPeriodo::where('plan_academico_id', $plan_id)
+        ->orderBy('periodo', 'ASC')->get();
+
+        $cursosAvoid = [];
+        $i = 0;
+
+        foreach ($MyPeriodos as $periodo) {
+            $periodo->cursos = PlanCurso::join('cursos', 'cursos.id', 'plan_cursos.curso_id')
+            ->where('plan_cursos.plan_periodo_id', $periodo->id)
+            ->select('cursos.*', 'plan_cursos.id as pl_curs_id', 'plan_cursos.plan_periodo_id as pl_curs_plan_periodo_id',
+            'plan_cursos.curso_id as pl_curs_curso_id', 'plan_cursos.creditos as pl_curs_creditos', 
+            'plan_cursos.hora_teorica as pl_curs_hora_teorica', 'plan_cursos.hora_practica as pl_curs_hora_practica', 
+            'plan_cursos.nota_minima as pl_curs_nota_minima')
+            ->orderBy('cursos.nombre', 'ASC')->get();
+
+            foreach ($periodo->cursos as $curso) {
+                $cursosAvoid[$i] = $curso->id;
+                $i = $i + 1;
+            }
+        }
+
+        $cursos = Curso::whereNotIn('id', $cursosAvoid)->where('estado', true)->get();
+
+        return response()->json([
+            'cursos'    => $cursos,
+            'Mycursos'  => $Mycursos,
+        ], 200);
     }
 }

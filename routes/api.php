@@ -127,5 +127,8 @@ Route::prefix('administrativo/gestion')->group(function ($router) {
     Route::post('periodos',           [GestionController::class, 'addPeriodosplan']);
     Route::put('periodos/{id}',       [GestionController::class, 'updatePeriodosplan']);
     Route::delete('periodos/{id}',    [GestionController::class, 'deletePeriodosplan']);
+    Route::post('cursos',           [GestionController::class, 'addCursosplan']);
+    Route::put('cursos/{id}',       [GestionController::class, 'updateCursosplan']);
+    Route::delete('cursos/{id}',    [GestionController::class, 'deleteCursosplan']);
 });
 
