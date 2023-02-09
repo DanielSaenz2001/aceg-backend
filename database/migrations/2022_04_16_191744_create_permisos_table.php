@@ -69,6 +69,16 @@ class CreatePermisosTable extends Migration
                     'nombre' => 'Gestión de Instituto',
                     'codigo' => 'GInstituto',
                     'activo' => true
+                ],
+                [//10
+                    'nombre' => 'Matricula Alumnos',
+                    'codigo' => 'MAlumnos',
+                    'activo' => true
+                ],
+                [//11
+                    'nombre' => 'Alumnos',
+                    'codigo' => 'Alumno',
+                    'activo' => true
                 ]
             ]
         );

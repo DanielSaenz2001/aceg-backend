@@ -18,6 +18,8 @@ use App\Http\Controllers\Administrativo\CursoController;
 use App\Http\Controllers\Administrativo\GestionController;
 use App\Http\Controllers\Administrativo\TallerController;
 
+use App\Http\Controllers\Matricula\MAlumnoController;
+
 Route::group([
     'middleware' => 'api'
 ], function ($router) {
@@ -110,25 +112,39 @@ Route::prefix('talleres')->group(function ($router) {
 });
 
 Route::prefix('administrativo/gestion')->group(function ($router) {
-    Route::get('sedes',             [GestionController::class, 'getSedes']);
-    Route::get('facultad/{id}',     [GestionController::class, 'getFacultadesDetailSede']);
-    Route::post('facultad',         [GestionController::class, 'addFacultadesSede']);
-    Route::put('facultad/{id}',     [GestionController::class, 'updateFacultadesSede']);
-    Route::delete('facultad/{id}',  [GestionController::class, 'deleteFacultadesSede']);
-    Route::get('carrera/{id}',      [GestionController::class, 'getCarrerasDetailFacultad']);
-    Route::post('carrera',          [GestionController::class, 'addCarrerasFacultad']);
-    Route::put('carrera/{id}',      [GestionController::class, 'updateCarrerasFacultad']);
-    Route::delete('carrera/{id}',   [GestionController::class, 'deleteCarrerasFacultad']);
-    Route::get('planes/{id}',       [GestionController::class, 'getPlanesDetailCarrera']);
-    Route::post('planes',           [GestionController::class, 'addPlanesCarrera']);
-    Route::put('planes/{id}',       [GestionController::class, 'updatePlanesCarrera']);
-    Route::delete('planes/{id}',    [GestionController::class, 'deletePlanesCarrera']);
-    Route::get('periodos/{id}',       [GestionController::class, 'getPeriodosDetailPlan']);
-    Route::post('periodos',           [GestionController::class, 'addPeriodosplan']);
-    Route::put('periodos/{id}',       [GestionController::class, 'updatePeriodosplan']);
-    Route::delete('periodos/{id}',    [GestionController::class, 'deletePeriodosplan']);
-    Route::post('cursos',           [GestionController::class, 'addCursosplan']);
-    Route::put('cursos/{id}',       [GestionController::class, 'updateCursosplan']);
-    Route::delete('cursos/{id}',    [GestionController::class, 'deleteCursosplan']);
+    Route::get('sedes',                         [GestionController::class, 'getSedes']);
+    Route::get('facultad/{id}',                 [GestionController::class, 'getFacultadesDetailSede']);
+    Route::post('facultad',                     [GestionController::class, 'addFacultadesSede']);
+    Route::put('facultad/{id}',                 [GestionController::class, 'updateFacultadesSede']);
+    Route::delete('facultad/{id}',              [GestionController::class, 'deleteFacultadesSede']);
+    Route::get('carrera/{id}',                  [GestionController::class, 'getCarrerasDetailFacultad']);
+    Route::post('carrera',                      [GestionController::class, 'addCarrerasFacultad']);
+    Route::put('carrera/{id}',                  [GestionController::class, 'updateCarrerasFacultad']);
+    Route::delete('carrera/{id}',               [GestionController::class, 'deleteCarrerasFacultad']);
+    Route::get('planes/{id}',                   [GestionController::class, 'getPlanesDetailCarrera']);
+    Route::post('planes',                       [GestionController::class, 'addPlanesCarrera']);
+    Route::put('planes/{id}',                   [GestionController::class, 'updatePlanesCarrera']);
+    Route::delete('planes/{id}',                [GestionController::class, 'deletePlanesCarrera']);
+    Route::get('periodos/{id}',                 [GestionController::class, 'getPeriodosDetailPlan']);
+    Route::post('periodos',                     [GestionController::class, 'addPeriodosplan']);
+    Route::put('periodos/{id}',                 [GestionController::class, 'updatePeriodosplan']);
+    Route::delete('periodos/{id}',              [GestionController::class, 'deletePeriodosplan']);
+    Route::post('cursos',                       [GestionController::class, 'addCursosDetailPeriodo']);
+    Route::put('cursos/{id}',                   [GestionController::class, 'updateCursosDetailPeriodo']);
+    Route::delete('cursos/{id}',                [GestionController::class, 'deleteCursosDetailPeriodo']);
+    Route::get('requisitos/{id}',               [GestionController::class, 'getRequisitosDetailCurso']);
+    Route::post('requisitos',                   [GestionController::class, 'addRequisitosDetailCurso']);
+    Route::delete('requisitos/{id}',            [GestionController::class, 'deleteRequisitosDetailCurso']);
 });
 
+Route::prefix('matricula/alumno')->group(function ($router) {
+    Route::get('filtro/{p}/{m}/{n}/{d}',        [MAlumnoController::class, 'filtro']);
+    Route::get('plan/{alumno_id}',              [MAlumnoController::class, 'getPlanesAlumno']);
+    Route::get('plan/facultad/{id}',            [MAlumnoController::class, 'getFacultades']);
+    Route::get('plan/carrera/{id}',             [MAlumnoController::class, 'getCarreras']);
+    Route::get('plan/planes/{id}',              [MAlumnoController::class, 'getPlanes']);
+    Route::get('plan/periodos/{id}',            [MAlumnoController::class, 'getPeriodos']);
+    Route::get('plan/requisitos/{id}',          [MAlumnoController::class, 'getRequisitos']);
+    
+    Route::post('plan',                         [MAlumnoController::class, 'savePlanAlumno']);
+});

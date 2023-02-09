@@ -14,6 +14,7 @@ use App\Models\Administrativo\Semestre;
 use App\Models\Administrativo\PlanPeriodo;
 use App\Models\Administrativo\PlanCurso;
 use App\Models\Administrativo\Curso;
+use App\Models\Administrativo\PlanRequisito;
 
 class GestionController extends Controller
 {
@@ -78,13 +79,16 @@ class GestionController extends Controller
     }
 
     public function getCarrerasDetailFacultad($facultad_id){
-        $facultad        = Facultad::findOrFail($facultad_id);
 
         $MyCarreras  = FacultadesCarreras::join('carreras', 'carreras.id', 'facultades_carreras.carrera_id')
         ->where('facultades_carreras.sede_facultad_id', $facultad_id)
         ->select('carreras.*', 'facultades_carreras.sede_facultad_id as facul_carrera_facultad_id'
         , 'facultades_carreras.carrera_id as facul_carrera_carrera_id', 'facultades_carreras.id as facul_carrera_id'
         , 'facultades_carreras.estado as facul_carrera_estado')->get();
+
+
+        $facultadSede           = SedesFacultades::findOrFail($facultad_id);
+        $facultad               = Facultad::findOrFail($facultadSede->facultad_id);
 
         $carrerasAvoid = [];
 
@@ -133,13 +137,16 @@ class GestionController extends Controller
     }
 
     public function getPlanesDetailCarrera($carrera_id){
-        $carrera        = Carrera::findOrFail($carrera_id);
 
         $MyPlanes  = PlanAcademico::join('semestres', 'semestres.id', 'plan_academico.semestre_id')
         ->where('plan_academico.facultad_carrera_id', $carrera_id)
         ->select('semestres.*', 'plan_academico.semestre_id as plan_semes_semestre_id'
         , 'plan_academico.facultad_carrera_id as plan_semes_facultad_carrera_id', 'plan_academico.id as plan_semes_id'
         , 'plan_academico.estado as plan_semes_estado')->orderBy('semestres.nombre', 'ASC')->get();
+    
+        
+        $facultadCarr   = FacultadesCarreras::findOrFail($carrera_id);
+        $carrera        = Carrera::findOrFail($facultadCarr->carrera_id);
 
         $planesAvoid = [];
 
@@ -255,19 +262,17 @@ class GestionController extends Controller
     public function getCarrerasDetailPeriodo($periodo_id){
 
         $Mycursos = PlanCurso::join('cursos', 'cursos.id', 'plan_cursos.curso_id')
-        ->where('plan_cursos.plan_periodo_id', $periodo->id)
+        ->where('plan_cursos.plan_periodo_id', $periodo_id)
         ->select('cursos.*', 'plan_cursos.id as pl_curs_id', 'plan_cursos.plan_periodo_id as pl_curs_plan_periodo_id',
         'plan_cursos.curso_id as pl_curs_curso_id', 'plan_cursos.creditos as pl_curs_creditos', 
         'plan_cursos.hora_teorica as pl_curs_hora_teorica', 'plan_cursos.hora_practica as pl_curs_hora_practica', 
         'plan_cursos.nota_minima as pl_curs_nota_minima')
         ->orderBy('cursos.nombre', 'ASC')->get();
 
-        $planPeriodo = PlanPeriodo::findOrFail($periodo_id);
-
         $plan        = PlanAcademico::join('semestres', 'semestres.id', 'plan_academico.semestre_id')
-        ->select('plan_academico.*', 'semestres.nombre')->findOrFail($planPeriodo->id);
+        ->select('plan_academico.*', 'semestres.nombre')->findOrFail($periodo_id);
 
-        $MyPeriodos  = PlanPeriodo::where('plan_academico_id', $plan_id)
+        $MyPeriodos  = PlanPeriodo::where('plan_academico_id', $plan->id)
         ->orderBy('periodo', 'ASC')->get();
 
         $cursosAvoid = [];
@@ -294,5 +299,71 @@ class GestionController extends Controller
             'cursos'    => $cursos,
             'Mycursos'  => $Mycursos,
         ], 200);
+    }
+
+    public function addCursosDetailPeriodo(Request $request){
+        $planCurso = new PlanCurso();
+
+        $planCurso->plan_periodo_id = $request->plan_periodo_id;
+        $planCurso->curso_id        = $request->curso_id;
+        $planCurso->creditos        = $request->creditos;
+        $planCurso->hora_teorica    = $request->hora_teorica;
+        $planCurso->hora_practica   = $request->hora_practica;
+        $planCurso->nota_minima     = $request->nota_minima;
+        
+        $planCurso->save();
+
+        return $this->getCarrerasDetailPeriodo($request->plan_periodo_id);
+    }
+
+    public function updateCursosDetailPeriodo($id, Request $request){
+        $planCurso = PlanCurso::findOrFail($id);
+
+        $planCurso->creditos        = $request->creditos;
+        $planCurso->hora_teorica    = $request->hora_teorica;
+        $planCurso->hora_practica   = $request->hora_practica;
+        $planCurso->nota_minima     = $request->nota_minima;
+        
+        $planCurso->save();
+
+        return true;
+    }
+
+    public function deleteCursosDetailPeriodo($id, Request $request){
+        $planCurso = PlanCurso::findOrFail($id);
+        $planCurso->delete();
+
+        return $this->getCarrerasDetailPeriodo($planCurso->plan_periodo_id);
+    }
+
+    public function getRequisitosDetailCurso($curso_id){
+
+        $MyRequisitos = PlanRequisito::join('cursos', 'cursos.id', 'plan_requisitos.requisito_id')
+        ->where('plan_requisitos.plan_curso_id', $curso_id)
+        ->select('cursos.*', 'plan_requisitos.id as pl_req_id', 'plan_requisitos.plan_curso_id as pl_req_plan_curso_id',
+        'plan_requisitos.requisito_id as pl_req_requisito_id')
+        ->orderBy('cursos.nombre', 'ASC')->get();
+
+        return response()->json([
+            'MyRequisitos'  => $MyRequisitos,
+        ], 200);
+    }
+
+    public function addRequisitosDetailCurso(Request $request){
+        $planRequisito = new PlanRequisito();
+
+        $planRequisito->plan_curso_id   = $request->plan_curso_id;
+        $planRequisito->requisito_id    = $request->requisito_id;
+        
+        $planRequisito->save();
+
+        return $this->getRequisitosDetailCurso($request->plan_curso_id);
+    }
+
+    public function deleteRequisitosDetailCurso($id, Request $request){
+        $planRequisito = PlanRequisito::findOrFail($id);
+        $planRequisito->delete();
+
+        return $this->getRequisitosDetailCurso($planRequisito->plan_curso_id);
     }
 }

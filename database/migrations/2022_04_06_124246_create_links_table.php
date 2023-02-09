@@ -122,7 +122,24 @@ class CreateLinksTable extends Migration
                     'visible'   => true,
                     'orden'     => '1',
                     'padre_id'  => 5,
-                ]
+                ],
+                //Matricula
+                [ //12
+                    'nombre'    => 'Matricula',
+                    'link'      => '/matricula',
+                    'icon'      => 'award-outline',
+                    'visible'   => true,
+                    'orden'     => '5',
+                    'padre_id'  => null,
+                ],
+                [ //13
+                    'nombre'      => 'Selección de Alumnos',
+                    'link'      => '/alumnos',
+                    'icon'      => 'people-outline',
+                    'visible'   => true,
+                    'orden'     => '1',
+                    'padre_id'  => 12,
+                ],
             ]
         );
     }
