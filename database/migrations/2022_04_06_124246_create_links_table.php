@@ -140,6 +140,14 @@ class CreateLinksTable extends Migration
                     'orden'     => '1',
                     'padre_id'  => 12,
                 ],
+                [ //14
+                    'nombre'      => 'Matriculados',
+                    'link'      => '/matriculados',
+                    'icon'      => 'people-outline',
+                    'visible'   => true,
+                    'orden'     => '1',
+                    'padre_id'  => 12,
+                ],
             ]
         );
     }

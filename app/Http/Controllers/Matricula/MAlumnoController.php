@@ -12,6 +12,7 @@ use App\Models\Administrativo\FacultadesCarreras;
 use App\Models\Administrativo\PlanAcademico;
 use App\Models\Administrativo\PlanPeriodo;
 use App\Models\Administrativo\PlanCurso;
+use App\Models\Administrativo\PlanAlumnoNota;
 
 class MAlumnoController extends Controller
 {
@@ -114,13 +115,28 @@ class MAlumnoController extends Controller
 
     public function savePlanAlumno(Request $request){
         $planAlumno = new PlanAlumno();
-        error_log($request);
 
         $planAlumno->plan_academico_id  = $request->plan_academico_id;
         $planAlumno->alumno_id          = $request->alumno_id;
+        $planAlumno->anhio              = date("Y");
         $planAlumno->estado             = true;
 
         $planAlumno->save();
+
+        $periodos  = PlanPeriodo::where('plan_academico_id', $request->plan_academico_id)
+        ->orderBy('periodo', 'ASC')->get();
+
+        foreach ($periodos as $periodo) {
+            $periodo->cursos = PlanCurso::where('plan_periodo_id', $periodo->id)->get();
+            foreach ($periodo->cursos as $curso) {
+                $planNota = new PlanAlumnoNota();
+                $planNota->plan_alumno_id   = $planAlumno->id;
+                $planNota->plan_curso_id    = $curso->id;
+                $planNota->nota             = null;
+                $planNota->estado           = 0;
+                $planNota->save();
+            }
+        }
 
         return $this->getPlanesAlumno($request->alumno_id);
     }

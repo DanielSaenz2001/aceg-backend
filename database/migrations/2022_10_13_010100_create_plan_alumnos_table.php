@@ -17,6 +17,11 @@ class CreatePlanAlumnosTable extends Migration
             $table->unsignedInteger('id')->autoIncrement();
             $table->unsignedInteger('plan_academico_id');
             $table->unsignedInteger('alumno_id');
+            $table->string('anhio');
+            $table->integer('cursos_aprobado');
+            $table->integer('cursos_desaprobado');
+            $table->integer('creditos_aprobado');
+            $table->integer('creditos_desaprobado');
             $table->boolean('estado');
 
             $table->foreign('alumno_id')->references('id')->on('users');

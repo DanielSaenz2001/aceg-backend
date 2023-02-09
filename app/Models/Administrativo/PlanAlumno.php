@@ -17,12 +17,17 @@ class PlanAlumno extends Model
         'id',
         'alumno_id',
         'plan_academico_id',
+        'anio',
         'estado',
     ];
     
     protected $casts = [
         'plan_academico_id' => 'integer',
         'alumno_id' => 'integer',
+        'cursos_aprobado' => 'integer',
+        'cursos_desaprobado' => 'integer',
+        'creditos_aprobado' => 'integer',
+        'creditos_desaprobado' => 'integer',
         'estado' => 'boolean',
     ];
 }

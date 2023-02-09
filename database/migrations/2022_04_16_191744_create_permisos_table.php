@@ -76,6 +76,11 @@ class CreatePermisosTable extends Migration
                     'activo' => true
                 ],
                 [//11
+                    'nombre' => 'Matriculados',
+                    'codigo' => 'MMatriculados',
+                    'activo' => true
+                ],
+                [//12
                     'nombre' => 'Alumnos',
                     'codigo' => 'Alumno',
                     'activo' => true
