@@ -13,6 +13,7 @@ use App\Models\Administrativo\PlanAcademico;
 use App\Models\Administrativo\PlanPeriodo;
 use App\Models\Administrativo\PlanCurso;
 use App\Models\Administrativo\PlanAlumnoNota;
+use App\Models\Administrativo\Semestre;
 
 class MAlumnoController extends Controller
 {
@@ -54,9 +55,12 @@ class MAlumnoController extends Controller
 
         $sedes  = Sede::all();
 
+        $semestres  = Semestre::where('estado', true)->where('nombre', 'LIKE' , '%'.date("Y").'%')->get();
+
         return response()->json([
             'plan_alumnos'  =>  $plan_alumnos,
             'sedes'         =>  $sedes,
+            'semestres'     =>  $semestres,
         ], 200);
     }
 
@@ -118,6 +122,7 @@ class MAlumnoController extends Controller
 
         $planAlumno->plan_academico_id  = $request->plan_academico_id;
         $planAlumno->alumno_id          = $request->alumno_id;
+        $planAlumno->semestre_id        = $request->semestre_id;
         $planAlumno->anhio              = date("Y");
         $planAlumno->estado             = true;
 

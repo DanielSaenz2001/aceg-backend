@@ -18,6 +18,7 @@ use App\Http\Controllers\Administrativo\CursoController;
 use App\Http\Controllers\Administrativo\GestionController;
 use App\Http\Controllers\Administrativo\TallerController;
 
+use App\Http\Controllers\Matricula\MatriculaController;
 use App\Http\Controllers\Matricula\MAlumnoController;
 
 Route::group([
@@ -135,6 +136,14 @@ Route::prefix('administrativo/gestion')->group(function ($router) {
     Route::get('requisitos/{id}',               [GestionController::class, 'getRequisitosDetailCurso']);
     Route::post('requisitos',                   [GestionController::class, 'addRequisitosDetailCurso']);
     Route::delete('requisitos/{id}',            [GestionController::class, 'deleteRequisitosDetailCurso']);
+});
+
+Route::prefix('matricula/matriculados')->group(function ($router) {
+    Route::get('sedes',                      [MatriculaController::class, 'getSedes']);
+    Route::get('facultad/{id}',              [MatriculaController::class, 'getFacultades']);
+    Route::get('carrera/{id}',               [MatriculaController::class, 'getCarreras']);
+    Route::get('planes/{id}',                [MatriculaController::class, 'getPlanes']);
+    Route::get('search/{plan_id}/{anhio_id}',[MatriculaController::class, 'search']);
 });
 
 Route::prefix('matricula/alumno')->group(function ($router) {
