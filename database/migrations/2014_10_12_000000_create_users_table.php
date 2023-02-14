@@ -88,6 +88,22 @@ class CreateUsersTable extends Migration
                     'password' => '$2y$10$JV4U.EfcQgNPGPPmRjmnu.D7q0wWRoFlK.4DIFpxfnnubza.hF7Hm',
                     'creado' => $miTiempo,
                     'modificado' => $miTiempo,
+                ],
+                [
+                    'dni' => '00000004',
+                    'nombres' => 'ACEG',
+                    'apellido_paterno' => 'Super',
+                    'apellido_materno' => 'Docent',
+                    'direccion' => 'ACEG',
+                    'sexo' => 'N',
+                    'email' => 'aceg.docent@aceg.edu.pe',
+                    'fecha_nacimiento' => $miTiempo,
+                    'celular' => '000000004',
+                    'usuario' => 'aceg.docent',
+                    'estado' => true,
+                    'password' => '$2y$10$JV4U.EfcQgNPGPPmRjmnu.D7q0wWRoFlK.4DIFpxfnnubza.hF7Hm',
+                    'creado' => $miTiempo,
+                    'modificado' => $miTiempo,
                 ]
             ]
         );

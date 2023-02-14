@@ -66,7 +66,7 @@ class CreatePermisosTable extends Migration
                     'activo' => true
                 ],
                 [//9
-                    'nombre' => 'Gestión de Instituto',
+                    'nombre' => 'Administración de Instituto',
                     'codigo' => 'GInstituto',
                     'activo' => true
                 ],
@@ -81,8 +81,33 @@ class CreatePermisosTable extends Migration
                     'activo' => true
                 ],
                 [//12
+                    'nombre' => 'Habilitar Cursos',
+                    'codigo' => 'GHabilitarCursos',
+                    'activo' => true
+                ],
+                [//13
                     'nombre' => 'Alumnos',
                     'codigo' => 'Alumno',
+                    'activo' => true
+                ],
+                [//14
+                    'nombre' => 'Administración de Horarios',
+                    'codigo' => 'Ghorarios',
+                    'activo' => true
+                ],
+                [//15
+                    'nombre' => 'Docente',
+                    'codigo' => 'Docente',
+                    'activo' => true
+                ],
+                [//16
+                    'nombre' => 'Administración Planes Matricula',
+                    'codigo' => 'GHabilitarPlanes',
+                    'activo' => true
+                ],
+                [//17
+                    'nombre' => 'Matricula del Alumno',
+                    'codigo' => 'MAlumno',
                     'activo' => true
                 ]
             ]

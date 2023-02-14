@@ -53,7 +53,7 @@ class MAlumnoController extends Controller
         ->where('plan_alumnos.estado', true)->where('alumno_id', $alumno_id)
         ->select('semestres.nombre', 'carreras.nombre as carrera', 'facultades.nombre as facultad')->get();
 
-        $sedes  = Sede::all();
+        $sedes  = Sede::where('estado', true)->get();
 
         $semestres  = Semestre::where('estado', true)->where('nombre', 'LIKE' , '%'.date("Y").'%')->get();
 
@@ -66,7 +66,9 @@ class MAlumnoController extends Controller
 
     public function getFacultades($sede_id){
         $facultades  = SedesFacultades::join('facultades', 'facultades.id', 'sedes_facultades.facultad_id')
-        ->where('sedes_facultades.sede_id', $sede_id)->select('facultades.*', 'sedes_facultades.id as sede_facul_id')->get();
+        ->where('sedes_facultades.sede_id', $sede_id)
+        ->where('sedes_facultades.estado', true)
+        ->select('facultades.*', 'sedes_facultades.id as sede_facul_id')->get();
 
         return response()->json($facultades, 200);
     }
@@ -74,6 +76,7 @@ class MAlumnoController extends Controller
     public function getCarreras($facultad_id){
         $carreras  = FacultadesCarreras::join('carreras', 'carreras.id', 'facultades_carreras.carrera_id')
         ->where('facultades_carreras.sede_facultad_id', $facultad_id)
+        ->where('facultades_carreras.estado', true)
         ->select('carreras.*', 'facultades_carreras.id as facul_carrera_id')->get();
 
         return response()->json($carreras, 200);
@@ -82,6 +85,7 @@ class MAlumnoController extends Controller
     public function getPlanes($carrera_id){
         $planes  = PlanAcademico::join('semestres', 'semestres.id', 'plan_academico.semestre_id')
         ->where('plan_academico.facultad_carrera_id', $carrera_id)
+        ->where('plan_academico.estado', true)
         ->select('semestres.*', 'plan_academico.id as plan_semes_id')->orderBy('semestres.nombre', 'ASC')->get();
 
         return response()->json($planes, 200);

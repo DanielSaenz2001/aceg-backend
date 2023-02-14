@@ -37,6 +37,7 @@ class SedeController extends Controller
         $sede->ubigeo       = $request->ubigeo;
         $sede->codigo       = $request->codigo;
         $sede->estado       = $request->estado;
+        $sede->matricula    = $request->matricula;
 
         $sede->save();
 
@@ -55,6 +56,7 @@ class SedeController extends Controller
         $sede->ubigeo       = $request->ubigeo;
         $sede->codigo       = $request->codigo;
         $sede->estado       = $request->estado;
+        $sede->matricula    = $request->matricula;
 
         $sede->save();
 

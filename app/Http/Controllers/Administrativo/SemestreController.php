@@ -30,6 +30,8 @@ class SemestreController extends Controller
         $semestre = new Semestre();
         $semestre->nombre       = $request->nombre;
         $semestre->estado       = $request->estado;
+        $semestre->inicio       = $request->inicio;
+        $semestre->fin          = $request->fin;
 
         $semestre->save();
 
@@ -41,6 +43,8 @@ class SemestreController extends Controller
 
         $semestre->nombre       = $request->nombre;
         $semestre->estado       = $request->estado;
+        $semestre->inicio       = $request->inicio;
+        $semestre->fin          = $request->fin;
 
         $semestre->save();
 

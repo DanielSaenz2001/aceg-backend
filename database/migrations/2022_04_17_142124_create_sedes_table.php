@@ -24,6 +24,8 @@ class CreateSedesTable extends Migration
             $table->string('ubigeo');
             $table->string('codigo')->unique();
             $table->boolean('estado');
+            $table->boolean('matricula');
+
 
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
@@ -41,6 +43,7 @@ class CreateSedesTable extends Migration
                     'ubigeo'        => '211101',
                     'codigo'        => 'ACEG-JULIACA',
                     'estado'        => true,
+                    'matricula'     => true,
                 ]
             ]
         );

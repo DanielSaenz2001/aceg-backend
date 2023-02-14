@@ -17,9 +17,13 @@ use App\Http\Controllers\Administrativo\CarreraController;
 use App\Http\Controllers\Administrativo\CursoController;
 use App\Http\Controllers\Administrativo\GestionController;
 use App\Http\Controllers\Administrativo\TallerController;
+use App\Http\Controllers\Administrativo\HoraController;
 
 use App\Http\Controllers\Matricula\MatriculaController;
 use App\Http\Controllers\Matricula\MAlumnoController;
+use App\Http\Controllers\Matricula\MHabilitacionCursosController;
+use App\Http\Controllers\Matricula\MHabilitacionPlanController;
+use App\Http\Controllers\Matricula\MatriculaAlumnoController;
 
 Route::group([
     'middleware' => 'api'
@@ -112,6 +116,22 @@ Route::prefix('talleres')->group(function ($router) {
     Route::delete('{id}',           [TallerController::class, 'destroy']);
 });
 
+Route::prefix('talleres')->group(function ($router) {
+    Route::get('',                  [TallerController::class, 'index']);
+    Route::get('{id}',              [TallerController::class, 'show']);
+    Route::post('',                 [TallerController::class, 'create']);
+    Route::put('{id}',              [TallerController::class, 'update']);
+    Route::delete('{id}',           [TallerController::class, 'destroy']);
+});
+
+Route::prefix('hora')->group(function ($router) {
+    Route::get('',                  [HoraController::class, 'index']);
+    Route::get('{id}',              [HoraController::class, 'show']);
+    Route::post('',                 [HoraController::class, 'create']);
+    Route::put('{id}',              [HoraController::class, 'update']);
+    Route::delete('{id}',           [HoraController::class, 'destroy']);
+});
+
 Route::prefix('administrativo/gestion')->group(function ($router) {
     Route::get('sedes',                         [GestionController::class, 'getSedes']);
     Route::get('facultad/{id}',                 [GestionController::class, 'getFacultadesDetailSede']);
@@ -156,4 +176,35 @@ Route::prefix('matricula/alumno')->group(function ($router) {
     Route::get('plan/requisitos/{id}',          [MAlumnoController::class, 'getRequisitos']);
     
     Route::post('plan',                         [MAlumnoController::class, 'savePlanAlumno']);
+});
+
+Route::prefix('matricula/habilitacion')->group(function ($router) {
+    Route::get('sedes/get',                         [MHabilitacionCursosController::class, 'getSedes']);
+    Route::get('facultad/{id}',                     [MHabilitacionCursosController::class, 'getFacultades']);
+    Route::get('carrera/{id}',                      [MHabilitacionCursosController::class, 'getCarreras']);
+    Route::get('planes/{id}',                       [MHabilitacionCursosController::class, 'getPlanes']);
+    Route::get('periodos/{id}/{semestre_id}',       [MHabilitacionCursosController::class, 'getPeriodos']);
+
+    Route::post('{plan_id}',                        [MHabilitacionCursosController::class, 'create']);
+    Route::put('{id}/{plan_id}',                    [MHabilitacionCursosController::class, 'update']);
+    Route::get('{id}',                              [MHabilitacionCursosController::class, 'getById']);
+    Route::delete('{id}/{plan_id}/{semestre_id}',   [MHabilitacionCursosController::class, 'destroy']);
+
+    Route::get('docente/{id}/{curso_id}',           [MHabilitacionCursosController::class, 'changeDocente']);
+});
+
+Route::prefix('matricula/planes')->group(function ($router) {
+    Route::get('sedes/get',                         [MHabilitacionPlanController::class, 'getSedes']);
+    Route::get('facultad/{id}',                     [MHabilitacionPlanController::class, 'getFacultades']);
+    Route::get('carrera/{id}',                      [MHabilitacionPlanController::class, 'getCarreras']);
+    Route::get('planes/{id}/{semestre_id}',         [MHabilitacionPlanController::class, 'getPlanes']);
+
+    Route::post('{carrera_id}',                     [MHabilitacionPlanController::class, 'create']);
+    Route::delete('{id}/{carrera_id}',              [MHabilitacionPlanController::class, 'destroy']);
+});
+
+Route::prefix('matricula/alumno')->group(function ($router) {
+    Route::get('',                                  [MatriculaAlumnoController::class, 'index']);
+    Route::get('paso2/{id}',                        [MatriculaAlumnoController::class, 'getPaso2ById']);
+    Route::post('',                                 [MatriculaAlumnoController::class, 'create']);
 });
