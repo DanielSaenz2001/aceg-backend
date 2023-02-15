@@ -17,12 +17,14 @@ class SemestresCursosAlumno extends Model
         'id',
         'semestres_curso_id',
         'alumno_id',
+        'matricula_id',
         'estado',
     ];
     
     protected $casts = [
         'semestres_curso_id'    => 'integer',
         'alumno_id'             => 'integer',
+        'matricula_id'          => 'integer',
         'estado'                => 'integer',
     ];
 }

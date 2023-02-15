@@ -31,7 +31,7 @@ class MHabilitacionCursosController extends Controller
     public function getSedes(){
 
         $sedes      = Sede::all();
-        $semestres  = Semestre::where('estado', true)->where('nombre', 'LIKE' , '%'.date("Y").'%')->get();
+        $semestres  = Semestre::orderBy('nombre', 'desc')->take(5)->get();
 
         $docentes = User::join('permiso_users', 'permiso_users.user_id', 'users.id')
         ->join('permisos', 'permisos.id', 'permiso_users.permiso_id')

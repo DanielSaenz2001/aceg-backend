@@ -259,7 +259,7 @@ class GestionController extends Controller
         return $this->getPeriodosDetailPlan($planPeriodo->plan_academico_id);
     }
 
-    public function getCarrerasDetailPeriodo($periodo_id){
+    public function getCarrerasDetailPeriodo($periodo_id, $plan_academico_id){
 
         $Mycursos = PlanCurso::join('cursos', 'cursos.id', 'plan_cursos.curso_id')
         ->where('plan_cursos.plan_periodo_id', $periodo_id)
@@ -270,7 +270,7 @@ class GestionController extends Controller
         ->orderBy('cursos.nombre', 'ASC')->get();
 
         $plan        = PlanAcademico::join('semestres', 'semestres.id', 'plan_academico.semestre_id')
-        ->select('plan_academico.*', 'semestres.nombre')->findOrFail($periodo_id);
+        ->select('plan_academico.*', 'semestres.nombre')->findOrFail($plan_academico_id);
 
         $MyPeriodos  = PlanPeriodo::where('plan_academico_id', $plan->id)
         ->orderBy('periodo', 'ASC')->get();
@@ -313,7 +313,9 @@ class GestionController extends Controller
         
         $planCurso->save();
 
-        return $this->getCarrerasDetailPeriodo($request->plan_periodo_id);
+        $planPeriodo = PlanPeriodo::findOrFail($request->plan_periodo_id);
+
+        return $this->getCarrerasDetailPeriodo($request->plan_periodo_id, $planPeriodo->plan_academico_id);
     }
 
     public function updateCursosDetailPeriodo($id, Request $request){
@@ -333,7 +335,9 @@ class GestionController extends Controller
         $planCurso = PlanCurso::findOrFail($id);
         $planCurso->delete();
 
-        return $this->getCarrerasDetailPeriodo($planCurso->plan_periodo_id);
+        $planPeriodo = PlanPeriodo::findOrFail($planCurso->plan_periodo_id);
+
+        return $this->getCarrerasDetailPeriodo($request->plan_periodo_id, $planPeriodo->plan_academico_id);
     }
 
     public function getRequisitosDetailCurso($curso_id){

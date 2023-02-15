@@ -182,6 +182,22 @@ class CreateLinksTable extends Migration
                     'orden'     => '3',
                     'padre_id'  => 12,
                 ],
+                [//19
+                    'nombre'    => 'Culminar Matricula',
+                    'link'      => '/culminar-matricula',
+                    'icon'      => 'book-outline',
+                    'visible'   => true,
+                    'orden'     => '3',
+                    'padre_id'  => 12,
+                ],
+                [//20
+                    'nombre'    => 'Agregar Alumno(Usuario)',
+                    'link'      => '/agregar-alumno',
+                    'icon'      => 'person-add-outline',
+                    'visible'   => true,
+                    'orden'     => '2',
+                    'padre_id'  => 12,
+                ]
             ]
         );
     }

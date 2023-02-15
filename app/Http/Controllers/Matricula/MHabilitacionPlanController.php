@@ -16,7 +16,8 @@ class MHabilitacionPlanController extends Controller
     public function getSedes(){
 
         $sedes      = Sede::all();
-        $semestres  = Semestre::where('estado', true)->where('nombre', 'LIKE' , '%'.date("Y").'%')->get();
+        $semestres  = Semestre::orderBy('nombre', 'desc')->take(5)->get();
+        //$semestres  = Semestre::where('estado', true)->where('nombre', 'LIKE' , '%'.date("Y").'%')->get();
 
         return response()->json([
             'sedes'     => $sedes,

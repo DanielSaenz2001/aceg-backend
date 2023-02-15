@@ -24,6 +24,8 @@ use App\Http\Controllers\Matricula\MAlumnoController;
 use App\Http\Controllers\Matricula\MHabilitacionCursosController;
 use App\Http\Controllers\Matricula\MHabilitacionPlanController;
 use App\Http\Controllers\Matricula\MatriculaAlumnoController;
+use App\Http\Controllers\Matricula\CulminarMatriculaController;
+use App\Http\Controllers\Matricula\MatriculaAdminController;
 
 Route::group([
     'middleware' => 'api'
@@ -207,4 +209,23 @@ Route::prefix('matricula/alumno')->group(function ($router) {
     Route::get('',                                  [MatriculaAlumnoController::class, 'index']);
     Route::get('paso2/{id}',                        [MatriculaAlumnoController::class, 'getPaso2ById']);
     Route::post('',                                 [MatriculaAlumnoController::class, 'create']);
+    Route::post('paso2',                            [MatriculaAlumnoController::class, 'matriculaPaso2']);
+    Route::put('paso2',                             [MatriculaAlumnoController::class, 'updatematriculaPaso2']);
 });
+
+Route::prefix('matricula/culminar')->group(function ($router) {
+    Route::get('sedes/get',                             [CulminarMatriculaController::class, 'getSedes']);
+    Route::get('facultad/{id}',                         [CulminarMatriculaController::class, 'getFacultades']);
+    Route::get('carrera/{id}',                          [CulminarMatriculaController::class, 'getCarreras']);
+    Route::get('planes/{id}',                           [CulminarMatriculaController::class, 'getPlanes']);
+    Route::get('matriculados/{semestre_id}/{plan_id}',  [CulminarMatriculaController::class, 'getMatriculados']);
+
+    
+    Route::get('{id}',                                  [CulminarMatriculaController::class, 'getById']);
+    Route::get('paso3/{id}',                            [CulminarMatriculaController::class, 'paso3']);
+});
+
+Route::prefix('matricula/admin')->group(function ($router) {
+    Route::post('',                             [MatriculaAdminController::class, 'create']);
+});
+
