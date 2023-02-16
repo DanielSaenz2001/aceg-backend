@@ -63,10 +63,10 @@ class CulminarMatriculaController extends Controller
     }
 
     public function getById($matricula_id){
-        $data = SemestresCursosAlumno::join('semestres_cursos', 'semestres_cursos.id', 'semestres_cursos_alumnos.semestres_curso_id')
+        $data = SemestresCursosAlumno::join('semestres_cursos', 'semestres_cursos.id', 'semestres_cursos_alumnos.sem_cur_id')
         ->join('plan_cursos', 'plan_cursos.id', 'semestres_cursos.plan_curso_id')
         ->join('cursos', 'cursos.id', 'plan_cursos.curso_id')
-        ->where('semestres_cursos_alumnos.matricula_id', $matricula_id)
+        ->where('semestres_cursos_alumnos.matri_id', $matricula_id)
         ->select('cursos.nombre', 'plan_cursos.creditos', 'cursos.tipo'
             , 'plan_cursos.hora_practica', 'plan_cursos.hora_teorica', 'semestres_cursos.grupo'
             , 'semestres_cursos.cupos')->get();
@@ -81,7 +81,7 @@ class CulminarMatriculaController extends Controller
         $matricula->fecha_fin = $miTiempo;
         $matricula->estado    = 3;
 
-        SemestresCursosAlumno::where('matricula_id', $matricula_id)->update(['estado'=> 1]);
+        SemestresCursosAlumno::where('matri_id', $matricula_id)->update(['estado'=> 1]);
 
         $matricula->save();
 

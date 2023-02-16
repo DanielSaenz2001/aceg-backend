@@ -29,73 +29,85 @@ class CreatePermisoLinksTable extends Migration
 
         DB::table('permiso_links')->insert(
             [
-                [//1
+                [ //1
                     'link_id' => 2,
                     'permiso_id' => 1,
                 ],
-                [//2
+                [ //2
                     'link_id' => 3,
                     'permiso_id' => 2,
                 ],
-                [//3
+                [ //3
                     'link_id' => 4,
                     'permiso_id' => 3,
                 ],
-                [//4
+                [ //4
                     'link_id' => 6,
                     'permiso_id' => 4,
                 ],
-                [//5
+                [ //5
                     'link_id' => 7,
                     'permiso_id' => 5,
                 ],
-                [//6
+                [ //6
                     'link_id' => 8,
                     'permiso_id' => 6,
                 ],
-                [//7
+                [ //7
                     'link_id' => 9,
                     'permiso_id' => 7,
                 ],
-                [//8
+                [ //8
                     'link_id' => 10,
                     'permiso_id' => 8,
                 ],
-                [//9
+                [ //9
                     'link_id' => 11,
                     'permiso_id' => 9,
                 ],
-                [//10
+                [ //10
                     'link_id' => 13,
                     'permiso_id' => 10,
                 ],
-                [//11
+                [ //11
                     'link_id' => 14,
                     'permiso_id' => 11,
                 ],
-                [//12
+                [ //12
                     'link_id' => 15,
                     'permiso_id' => 12,
                 ],
-                [//13
+                [ //13
                     'link_id' => 16,
                     'permiso_id' => 14,
                 ],
-                [//14
+                [ //14
                     'link_id' => 17,
                     'permiso_id' => 16,
                 ],
-                [//15
+                [ //15
                     'link_id' => 18,
                     'permiso_id' => 17,
                 ],
-                [//16
+                [ //16
                     'link_id' => 19,
                     'permiso_id' => 18,
                 ],
-                [//17
+                [ //17
                     'link_id' => 20,
                     'permiso_id' => 19,
+                ],
+                [ //18
+                    'link_id' => 22,
+                    'permiso_id' => 15,
+                ],
+                [ //19
+                    'link_id' => 24,
+                    'permiso_id' => 13,
+                ],
+                [ //20
+                    'link_id' => 25,
+                    'permiso_id' => 13,
                 ],
             ]
         );

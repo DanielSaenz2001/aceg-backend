@@ -17,7 +17,7 @@ class CreatePlanAlumnosNotasTable extends Migration
             $table->unsignedInteger('id')->autoIncrement();
             $table->unsignedInteger('plan_alumno_id');
             $table->unsignedInteger('plan_curso_id');
-            $table->integer('nota')->nullable();
+            $table->float('nota', 8 ,2)->nullable();
             $table->tinyInteger('estado');
 
             $table->foreign('plan_alumno_id')->references('id')->on('plan_alumnos');

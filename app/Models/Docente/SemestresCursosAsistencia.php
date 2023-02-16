@@ -1,30 +1,29 @@
 <?php
 
-namespace App\Models\Matricula;
+namespace App\Models\Docente;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SemestresCursosAlumno extends Model
+class SemestresCursosAsistencia extends Model
 {
     public $timestamps = false;
     
-    protected $table = 'semestres_cursos_alumnos';
+    protected $table = 'semestres_cursos_asistencias';
     protected $primaryKey = 'id';
     protected $guarded = ["id"];
 
     protected $fillable = [
         'id',
-        'sem_cur_id',
-        'alum_id',
-        'matri_id',
+        'semestres_curso_id',
+        'alumno_id',
+        'fecha',
         'estado',
     ];
     
     protected $casts = [
         'semestres_curso_id'    => 'integer',
         'alumno_id'             => 'integer',
-        'matricula_id'          => 'integer',
         'estado'                => 'integer',
     ];
 }

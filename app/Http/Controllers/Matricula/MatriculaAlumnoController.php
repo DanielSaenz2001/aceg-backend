@@ -18,7 +18,6 @@ class MatriculaAlumnoController extends Controller
 {
     public function index(){
         $data = [];
-        
         $planes = PlanAlumno::join('plan_academico', 'plan_academico.id', 'plan_alumnos.plan_academico_id')
         ->join('semestres_planes', 'semestres_planes.plan_academico_id', 'plan_academico.id')
         ->join('semestres', 'semestres.id', 'semestres_planes.semestre_id')
@@ -28,7 +27,8 @@ class MatriculaAlumnoController extends Controller
         ->join('sedes_facultades', 'sedes_facultades.id', 'facultades_carreras.sede_facultad_id')
         ->join('sedes', 'sedes.id', 'sedes_facultades.sede_id')
         ->where('plan_alumnos.estado', true)
-        ->where('semestres.estado', true)->where('alumno_id', auth()->user()->id)
+        ->where('semestres.estado', true)
+        ->where('plan_alumnos.alumno_id', auth()->user()->id)
         ->select('semestres.nombre as semestre', 'carreras.nombre as carrera'
         , 'facultades.nombre as facultad', 'sedes.matricula', 'sedes.nombre as sede'
         , 'sedes.direccion', 'semestres_planes.semestre_id', 'plan_academico.id as plan_id')->get();
@@ -83,7 +83,7 @@ class MatriculaAlumnoController extends Controller
 
                 $curso->requisitos = [];
                 $curso->llevo = true;
-                $count = SemestresCursosAlumno::where('semestres_curso_id', $curso->semestres_curso_id)->where('estado', 1)->count();
+                $count = SemestresCursosAlumno::where('sem_cur_id', $curso->semestres_curso_id)->where('estado', 1)->count();
                 $curso->cupos = $curso->cupos - $count;
                 
                 if($curso->cupos < 0){
@@ -151,19 +151,19 @@ class MatriculaAlumnoController extends Controller
         }
 
         if($matricula->estado == 2){
-            $myCursosdata = SemestresCursosAlumno::join('semestres_cursos', 'semestres_cursos.id', 'semestres_cursos_alumnos.semestres_curso_id')
+            $myCursosdata = SemestresCursosAlumno::join('semestres_cursos', 'semestres_cursos.id', 'semestres_cursos_alumnos.sem_cur_id')
             ->join('plan_cursos', 'plan_cursos.id', 'semestres_cursos.plan_curso_id')
             ->join('cursos', 'cursos.id', 'plan_cursos.curso_id')
             ->join('plan_periodos', 'plan_periodos.id', 'plan_cursos.plan_periodo_id')
-            ->where('semestres_cursos_alumnos.alumno_id', auth()->user()->id)
-            ->where('semestres_cursos_alumnos.matricula_id', $matricula->id)
+            ->where('semestres_cursos_alumnos.alum_id', auth()->user()->id)
+            ->where('semestres_cursos_alumnos.matri_id', $matricula->id)
             ->select('cursos.nombre', 'plan_cursos.creditos', 'cursos.tipo'
             , 'plan_cursos.hora_practica', 'plan_cursos.hora_teorica', 'semestres_cursos.grupo'
             , 'semestres_cursos.cupos', 'semestres_cursos.plan_curso_id', 'semestres_cursos.docente_id'
-            , 'plan_periodos.periodo', 'semestres_cursos_alumnos.semestres_curso_id')->get();
+            , 'plan_periodos.periodo', 'semestres_cursos_alumnos.sem_cur_id as semestres_curso_id')->get();
             
             foreach ($myCursosdata as $curso) {
-                $count = SemestresCursosAlumno::where('semestres_curso_id', $curso->semestres_curso_id)->where('estado', 1)->count();
+                $count = SemestresCursosAlumno::where('sem_cur_id', $curso->semestres_curso_id)->where('estado', 1)->count();
                 $curso->cupos = $curso->cupos - $count;
                 if($curso->cupos < 0){
                     $curso->cupos = 0;
@@ -225,10 +225,10 @@ class MatriculaAlumnoController extends Controller
         foreach ($listPeriodos as $key => $periodo) {
             foreach ($periodo->cursos as $key => $item) {
                 $data = new SemestresCursosAlumno();
-                $data->semestres_curso_id   = $item->semestres_curso_id;
-                $data->alumno_id            = auth()->user()->id;
+                $data->sem_cur_id           = $item->semestres_curso_id;
+                $data->alum_id              = auth()->user()->id;
                 $data->estado               = 0;
-                $data->matricula_id         = $matricula->id;
+                $data->matri_id             = $matricula->id;
                 $data->save();
             }
         }
@@ -241,8 +241,8 @@ class MatriculaAlumnoController extends Controller
     public function updatematriculaPaso2(Request $request){
         $matricula = Matricula::findOrFail($request->matricula_id);
 
-        $cursos_pre_matriculados = SemestresCursosAlumno::where('alumno_id', auth()->user()->id)
-        ->where('matricula_id', $matricula->id)->where('estado', 0)->get();
+        $cursos_pre_matriculados = SemestresCursosAlumno::where('alum_id', auth()->user()->id)
+        ->where('matri_id', $matricula->id)->where('estado', 0)->get();
 
         if(count($request->listCursos) > 0){
             $data =Response::json($request->listCursos);
@@ -271,24 +271,24 @@ class MatriculaAlumnoController extends Controller
             }
         }
 
-        SemestresCursosAlumno::whereNotIn('semestres_curso_id', $list_ids)
-        ->where('alumno_id', auth()->user()->id)
-        ->where('matricula_id', $matricula->id)
+        SemestresCursosAlumno::whereNotIn('sem_cur_id', $list_ids)
+        ->where('alum_id', auth()->user()->id)
+        ->where('matri_id', $matricula->id)
         ->where('estado', 0)->delete();
 
         foreach ($list_create as $id) {
             $data = new SemestresCursosAlumno();
-            $data->semestres_curso_id   = $id;
-            $data->alumno_id            = auth()->user()->id;
-            $data->estado               = 0;
-            $data->matricula_id         = $matricula->id;
+            $data->sem_cur_id       = $id;
+            $data->alum_id          = auth()->user()->id;
+            $data->estado           = 0;
+            $data->matri_id         = $matricula->id;
             $data->save();
         }
 
 
-        $list_add = SemestresCursosAlumno::whereIn('semestres_curso_id', $list_ids)
-        ->where('alumno_id', auth()->user()->id)
-        ->where('matricula_id', $matricula->id)
+        $list_add = SemestresCursosAlumno::whereIn('sem_cur_id', $list_ids)
+        ->where('alum_id', auth()->user()->id)
+        ->where('matri_id', $matricula->id)
         ->where('estado', 0)->get();
 
         return response()->json(true, 200);

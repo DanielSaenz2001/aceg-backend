@@ -197,7 +197,49 @@ class CreateLinksTable extends Migration
                     'visible'   => true,
                     'orden'     => '2',
                     'padre_id'  => 12,
-                ]
+                ],
+                // Docente
+                [ //21
+                    'nombre'    => 'Docente',
+                    'link'      => '/docente',
+                    'icon'      => 'book-outline',
+                    'visible'   => true,
+                    'orden'     => '1',
+                    'padre_id'  => null,
+                ],
+                [ //22
+                    'nombre'    => 'Cursos',
+                    'link'      => '/cursos',
+                    'icon'      => 'book-open-outline',
+                    'visible'   => true,
+                    'orden'     => '1',
+                    'padre_id'  => 21,
+                ],
+                // Alumno
+                [ //23
+                    'nombre'    => 'Alumno',
+                    'link'      => '/alumno',
+                    'icon'      => 'book-outline',
+                    'visible'   => true,
+                    'orden'     => '1',
+                    'padre_id'  => null,
+                ],
+                [ //24
+                    'nombre'    => 'Cursos',
+                    'link'      => '/cursos',
+                    'icon'      => 'book-open-outline',
+                    'visible'   => true,
+                    'orden'     => '1',
+                    'padre_id'  => 23,
+                ],
+                [ //25
+                    'nombre'    => 'Planes Academicos',
+                    'link'      => '/plan-academico',
+                    'icon'      => 'archive-outline',
+                    'visible'   => true,
+                    'orden'     => '2',
+                    'padre_id'  => 23,
+                ],
             ]
         );
     }
