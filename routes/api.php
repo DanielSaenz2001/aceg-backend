@@ -32,6 +32,9 @@ use App\Http\Controllers\Docente\DAsistenciaController;
 use App\Http\Controllers\Docente\DEvaluacionController;
 use App\Http\Controllers\Docente\DNotasController;
 
+use App\Http\Controllers\Alumno\ACursosController;
+use App\Http\Controllers\Alumno\APlanController;
+
 Route::group([
     'middleware' => 'api'
 ], function ($router) {
@@ -226,7 +229,6 @@ Route::prefix('matricula/admin')->group(function ($router) {
     Route::post('',                                     [MatriculaAdminController::class, 'create']);
 });
 
-
 Route::prefix('docente')->group(function ($router) {
     Route::get('',                                      [DCursosController::class, 'getCursos']);
     Route::get('alumnos/{id}',                          [DCursosController::class, 'getAlumnos']);
@@ -244,4 +246,15 @@ Route::prefix('docente')->group(function ($router) {
     Route::post('notas',                                [DNotasController::class, 'create']);
 
     Route::get('upnotas/{cur_id}',                      [DEvaluacionController::class, 'upNotas']);
+});
+
+Route::prefix('alumno')->group(function ($router) {
+    Route::get('',                                      [ACursosController::class, 'getCursos']);
+    Route::get('{id}',                                  [ACursosController::class, 'getCursosByOtherMatricula']);
+    Route::get('evaluacion/{id}',                       [ACursosController::class, 'getEvaluaciones']);
+    Route::get('asistencia/{id}',                       [ACursosController::class, 'getAsistencia']);
+
+    Route::get('/get/planes',                           [APlanController::class, 'getPlanes']);
+    Route::get('/get/planes/{id}',                      [APlanController::class, 'getPlanesByPlan']);
+    Route::get('/get/planes/requisitos/{id}',           [APlanController::class, 'getRequisitos']);
 });
