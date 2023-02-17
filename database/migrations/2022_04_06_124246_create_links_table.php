@@ -143,7 +143,7 @@ class CreateLinksTable extends Migration
                 [ //14
                     'nombre'    => 'Matriculados',
                     'link'      => '/matriculados',
-                    'icon'      => 'briefcase-outline',
+                    'icon'      => 'clipboard-outline',
                     'visible'   => true,
                     'orden'     => '2',
                     'padre_id'  => 12,
@@ -151,7 +151,7 @@ class CreateLinksTable extends Migration
                 [ //15
                     'nombre'    => 'Habilitar Cursos',
                     'link'      => '/habilitar-cursos',
-                    'icon'      => 'cube-outline',
+                    'icon'      => 'book-outline',
                     'visible'   => true,
                     'orden'     => '3',
                     'padre_id'  => 12,
@@ -169,7 +169,7 @@ class CreateLinksTable extends Migration
                 [ //17
                     'nombre'    => 'Habilitar Planes',
                     'link'      => '/habilitar-planes',
-                    'icon'      => 'clipboard-outline',
+                    'icon'      => 'book-open-outline',
                     'visible'   => true,
                     'orden'     => '3',
                     'padre_id'  => 12,
@@ -183,9 +183,9 @@ class CreateLinksTable extends Migration
                     'padre_id'  => 12,
                 ],
                 [//19
-                    'nombre'    => 'Culminar Matricula',
+                    'nombre'    => 'Culminar Matrícula',
                     'link'      => '/culminar-matricula',
-                    'icon'      => 'book-outline',
+                    'icon'      => 'bookmark-outline',
                     'visible'   => true,
                     'orden'     => '3',
                     'padre_id'  => 12,
@@ -233,7 +233,7 @@ class CreateLinksTable extends Migration
                     'padre_id'  => 23,
                 ],
                 [ //25
-                    'nombre'    => 'Planes Academicos',
+                    'nombre'    => 'Planes Académicos',
                     'link'      => '/plan-academico',
                     'icon'      => 'archive-outline',
                     'visible'   => true,

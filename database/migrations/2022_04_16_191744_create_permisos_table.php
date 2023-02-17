@@ -71,12 +71,12 @@ class CreatePermisosTable extends Migration
                     'activo' => true
                 ],
                 [//10
-                    'nombre' => 'Matricula Alumnos',
+                    'nombre' => 'Matrícula Alumnos',
                     'codigo' => 'MAlumnos',
                     'activo' => true
                 ],
                 [//11
-                    'nombre' => 'Matriculados',
+                    'nombre' => 'Matrículados',
                     'codigo' => 'MMatriculados',
                     'activo' => true
                 ],
@@ -101,17 +101,17 @@ class CreatePermisosTable extends Migration
                     'activo' => true
                 ],
                 [//16
-                    'nombre' => 'Administración Planes Matricula',
+                    'nombre' => 'Administración Planes Matrícula',
                     'codigo' => 'GHabilitarPlanes',
                     'activo' => true
                 ],
                 [//17
-                    'nombre' => 'Matricula del Alumno',
+                    'nombre' => 'Matrícula del Alumno',
                     'codigo' => 'MAlumno',
                     'activo' => true
                 ],
                 [//18
-                    'nombre' => 'Culminar Matricula',
+                    'nombre' => 'Culminar Matrícula',
                     'codigo' => 'FMatricula',
                     'activo' => true
                 ],
