@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Matricula\SemestresCurso;
 use App\Models\Matricula\SemestresCursosAlumno;
 use App\Models\Docente\SemestresCursosAsistencia;
+use Carbon\Carbon;
 use Response;
 
 class DAsistenciaController extends Controller
@@ -18,7 +19,7 @@ class DAsistenciaController extends Controller
         ->where('semestres_cursos.docente_id', auth()->user()->id)
         ->where('semestres_cursos.id', $id)
         ->select('semestres_cursos.id', 'cursos.nombre', 'plan_cursos.creditos'
-        , 'plan_cursos.hora_teorica', 'plan_cursos.hora_practica', 'semestres_cursos.grupo')->first();
+        , 'plan_cursos.hora_teorica', 'plan_cursos.hora_practica', 'semestres_cursos.grupo' ,'semestres.estado as semestre_estado')->first();
         
         $alumnos = SemestresCursosAlumno::join('users', 'users.id', 'semestres_cursos_alumnos.alum_id')
         ->where('semestres_cursos_alumnos.estado', 1)
@@ -46,9 +47,21 @@ class DAsistenciaController extends Controller
             }
         }
 
+        $estado = false;
+        $theDate = Carbon::createFromFormat('Y-m-d', $date)->addDays(7)->format('Y-m-d');
+        $miTiempo = Carbon::now()->format('Y-m-d');
+
+
+        if($curso->semestre_estado){
+            if($miTiempo < $theDate) {
+                $estado = true;
+            }
+        }
+
         return response()->json([
             'curso'   => $curso,
-            'alumnos' => $alumnos
+            'alumnos' => $alumnos,
+            'estado'  => $estado,
         ], 200);
     }
 
@@ -58,6 +71,22 @@ class DAsistenciaController extends Controller
         if(count($request->data) > 0){
             $data = Response::json($request->data);
             $listAlumnos = $data->getData();
+        }
+
+        
+        $estado = false;
+        $theDate = Carbon::parse($request->fecha)->addDays(7)->format('Y-m-d');
+        $miTiempo = Carbon::now()->format('Y-m-d');
+
+
+        if($curso->semestre_estado){
+            if($miTiempo > $theDate) {
+                $estado = true;
+
+                return response()->json([
+                    'message' => 'Ya se paso la fecha para la asistencia'
+                ], 401);
+            }
         }
 
         foreach ($listAlumnos as $item) {

@@ -9,6 +9,7 @@ use App\Models\Docente\SemestresCursosEvaluacion;
 use App\Models\Docente\EvaluacionesNota;
 use App\Models\Matricula\SemestresCursosAlumno;
 use App\Models\Administrativo\PlanAlumnoNota;
+use Carbon\Carbon;
 
 class DEvaluacionController extends Controller
 {
@@ -19,14 +20,45 @@ class DEvaluacionController extends Controller
         ->where('semestres_cursos.docente_id', auth()->user()->id)
         ->where('semestres_cursos.id', $id)
         ->select('semestres_cursos.id', 'cursos.nombre', 'plan_cursos.creditos'
-        , 'plan_cursos.hora_teorica', 'plan_cursos.hora_practica', 'semestres_cursos.grupo')->first();
+        , 'plan_cursos.hora_teorica', 'plan_cursos.hora_practica', 'semestres_cursos.grupo'
+        ,'semestres.estado as semestre_estado', 'semestres.inicio', 'semestres.fin')->first();
         
         $evaluaciones = SemestresCursosEvaluacion::where('sem_cur_id', $id)
         ->get();
 
+        $miTiempo = Carbon::now()->format('Y-m-d');
+
+        foreach ($evaluaciones as $item) {
+            $estado = false;
+            $theDate = Carbon::parse($item->fecha)->addDays(7)->format('Y-m-d');
+
+            if($curso->semestre_estado){
+                if($miTiempo < $theDate) {
+                    $estado = true;
+                }
+            }
+
+            $item->estado = $estado;
+        }
+
+        $estado = false;
+        $inicio = $curso->inicio;
+        $fin = $curso->fin;
+
+        $theDateIni = Carbon::parse($inicio)->subDays(7)->format('Y-m-d');
+        $theDateFin = Carbon::parse($fin)->addDays(7)->format('Y-m-d');
+        $miTiempo = Carbon::now()->format('Y-m-d');
+
+        if($curso->semestre_estado){
+            if( $miTiempo > $theDateIni && $miTiempo < $theDateFin) {
+                $estado = true;
+            }
+        }
+
         return response()->json([
             'curso'         => $curso,
-            'evaluaciones'  => $evaluaciones
+            'evaluaciones'  => $evaluaciones,
+            'estado'        => $estado
         ], 200);
     }
 
@@ -79,7 +111,8 @@ class DEvaluacionController extends Controller
         ->select('semestres_cursos.id', 'cursos.nombre', 'plan_cursos.creditos'
         , 'plan_cursos.hora_teorica', 'plan_cursos.hora_practica'
         , 'semestres_cursos.grupo', 'semestres_cursos.plan_curso_id'
-        , 'plan_periodos.plan_academico_id', 'plan_cursos.nota_minima')->first();
+        , 'plan_periodos.plan_academico_id', 'plan_cursos.nota_minima'
+        , 'semestres.estado as semestre_estado', 'semestres.inicio', 'semestres.fin')->first();
 
         $alumnos = SemestresCursosAlumno::join('users', 'users.id', 'semestres_cursos_alumnos.alum_id')
         ->where('semestres_cursos_alumnos.estado', 1)
@@ -87,6 +120,21 @@ class DEvaluacionController extends Controller
         ->select('users.id as user_id', 'users.nombres', 'users.apellido_paterno'
         , 'users.apellido_materno', 'users.dni', 'users.sexo')
         ->get();
+
+        $inicio = $curso->inicio;
+        $fin = $curso->fin;
+
+        $theDateIni = Carbon::parse($inicio)->subDays(7)->format('Y-m-d');
+        $theDateFin = Carbon::parse($fin)->addDays(7)->format('Y-m-d');
+        $miTiempo = Carbon::now()->format('Y-m-d');
+
+        if($curso->semestre_estado){
+            if( !($miTiempo > $theDateIni) && !($miTiempo < $theDateFin)) {
+                return response()->json([
+                    'message' => 'Ya se paso la fecha para las notas'
+                ], 401);
+            }
+        }
 
         foreach ($alumnos as $alumno) {
             $notas = EvaluacionesNota::join('semestres_cursos_evaluaciones', 'semestres_cursos_evaluaciones.id', 'evaluaciones_notas.evaluacion_id')
