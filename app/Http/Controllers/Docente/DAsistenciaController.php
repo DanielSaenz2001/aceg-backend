@@ -79,7 +79,7 @@ class DAsistenciaController extends Controller
         $miTiempo = Carbon::now()->format('Y-m-d');
 
         $curso = SemestresCurso::join('semestres', 'semestres.id', 'semestres_cursos.semestre_id')
-        ->where('semestres_cursos.id', $evaluacion->sem_cur_id)->select('semestres.estado as semestre_estado')
+        ->where('semestres_cursos.id', $request->semestre_curso_id)->select('semestres.estado as semestre_estado')
         ->first();
 
         if($curso->semestre_estado){
