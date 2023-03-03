@@ -37,7 +37,7 @@ use App\Http\Controllers\Alumno\APlanController;
 
 Route::group([
     'middleware' => 'api'
-], function ($router) {
+    ], function () {
     Route::post('login',                                [AuthController::class, 'login']);
     Route::get('me',                                    [AuthController::class, 'me']);
     Route::post('logout',                               [AuthController::class, 'logout']);
@@ -46,7 +46,7 @@ Route::group([
     Route::get('resetPassword/{id}',                    [ChangePasswordController::class, 'process']);
 });
 
-Route::prefix('usuario')->group(function ($router) {
+Route::prefix('usuario')->middleware(['permisso:GUsuarios'])->group(function () {
     Route::get('',                                      [UserController::class, 'index']);
     Route::get('{id}',                                  [UserController::class, 'show']);
     Route::get('filtro/{p}/{m}/{n}/{d}',                [UserController::class, 'filtro']);
@@ -60,7 +60,7 @@ Route::prefix('usuario')->group(function ($router) {
     Route::get('dltPermiso/{user}/{per}',               [UserController::class, 'deletePermiso']);
 });
 
-Route::prefix('links')->group(function ($router) {
+Route::prefix('links')->middleware(['permisso:GRutas'])->group(function () {
     Route::get('',                                      [LinksController::class, 'index']);
     Route::get('{id}',                                  [LinksController::class, 'show']);
     Route::post('',                                     [LinksController::class, 'create']);
@@ -70,7 +70,7 @@ Route::prefix('links')->group(function ($router) {
     Route::get('dltPermiso/{link}/{per}',               [LinksController::class, 'deletePermiso']);
 });
 
-Route::prefix('permisos')->group(function ($router) {
+Route::prefix('permisos')->middleware(['permisso:GPermisos'])->group(function () {
     Route::get('',                                      [PermisoController::class, 'index']);
     Route::get('{id}',                                  [PermisoController::class, 'show']);
     Route::post('',                                     [PermisoController::class, 'create']);
@@ -78,7 +78,7 @@ Route::prefix('permisos')->group(function ($router) {
     Route::delete('{id}',                               [PermisoController::class, 'destroy']);
 });
 
-Route::prefix('semestres')->group(function ($router) {
+Route::prefix('semestres')->middleware(['permisso:GSemestres'])->group(function () {
     Route::get('',                                      [SemestreController::class, 'index']);
     Route::get('{id}',                                  [SemestreController::class, 'show']);
     Route::post('',                                     [SemestreController::class, 'create']);
@@ -86,7 +86,7 @@ Route::prefix('semestres')->group(function ($router) {
     Route::delete('{id}',                               [SemestreController::class, 'destroy']);
 });
 
-Route::prefix('sedes')->group(function ($router) {
+Route::prefix('sedes')->middleware(['permisso:GSedes'])->group(function () {
     Route::get('',                                      [SedeController::class, 'index']);
     Route::get('{id}',                                  [SedeController::class, 'show']);
     Route::post('',                                     [SedeController::class, 'create']);
@@ -94,7 +94,7 @@ Route::prefix('sedes')->group(function ($router) {
     Route::delete('{id}',                               [SedeController::class, 'destroy']);
 });
 
-Route::prefix('facultades')->group(function ($router) {
+Route::prefix('facultades')->middleware(['permisso:GFacultades'])->group(function () {
     Route::get('',                                      [FacultadController::class, 'index']);
     Route::get('{id}',                                  [FacultadController::class, 'show']);
     Route::post('',                                     [FacultadController::class, 'create']);
@@ -102,7 +102,7 @@ Route::prefix('facultades')->group(function ($router) {
     Route::delete('{id}',                               [FacultadController::class, 'destroy']);
 });
 
-Route::prefix('carreras')->group(function ($router) {
+Route::prefix('carreras')->middleware(['permisso:GCarreras'])->group(function () {
     Route::get('',                                      [CarreraController::class, 'index']);
     Route::get('{id}',                                  [CarreraController::class, 'show']);
     Route::post('',                                     [CarreraController::class, 'create']);
@@ -110,7 +110,7 @@ Route::prefix('carreras')->group(function ($router) {
     Route::delete('{id}',                               [CarreraController::class, 'destroy']);
 });
 
-Route::prefix('cursos')->group(function ($router) {
+Route::prefix('cursos')->middleware(['permisso:GCursos'])->group(function () {
     Route::get('',                                      [CursoController::class, 'index']);
     Route::get('{id}',                                  [CursoController::class, 'show']);
     Route::post('',                                     [CursoController::class, 'create']);
@@ -118,7 +118,7 @@ Route::prefix('cursos')->group(function ($router) {
     Route::delete('{id}',                               [CursoController::class, 'destroy']);
 });
 
-Route::prefix('talleres')->group(function ($router) {
+Route::prefix('talleres')->middleware(['permisso:GCursos'])->group(function () {
     Route::get('',                                      [TallerController::class, 'index']);
     Route::get('{id}',                                  [TallerController::class, 'show']);
     Route::post('',                                     [TallerController::class, 'create']);
@@ -126,7 +126,7 @@ Route::prefix('talleres')->group(function ($router) {
     Route::delete('{id}',                               [TallerController::class, 'destroy']);
 });
 
-Route::prefix('hora')->group(function ($router) {
+Route::prefix('hora')->middleware(['permisso:Ghorarios'])->group(function () {
     Route::get('',                                      [HoraController::class, 'index']);
     Route::get('{id}',                                  [HoraController::class, 'show']);
     Route::post('',                                     [HoraController::class, 'create']);
@@ -134,7 +134,7 @@ Route::prefix('hora')->group(function ($router) {
     Route::delete('{id}',                               [HoraController::class, 'destroy']);
 });
 
-Route::prefix('administrativo/gestion')->group(function ($router) {
+Route::prefix('administrativo/gestion')->middleware(['permisso:GInstituto'])->group(function () {
     Route::get('sedes',                                 [GestionController::class, 'getSedes']);
     Route::get('facultad/{id}',                         [GestionController::class, 'getFacultadesDetailSede']);
     Route::post('facultad',                             [GestionController::class, 'addFacultadesSede']);
@@ -160,7 +160,7 @@ Route::prefix('administrativo/gestion')->group(function ($router) {
     Route::delete('requisitos/{id}',                    [GestionController::class, 'deleteRequisitosDetailCurso']);
 });
 
-Route::prefix('matricula/matriculados')->group(function ($router) {
+Route::prefix('matricula/matriculados')->middleware(['permisso:MMatriculados'])->group(function () {
     Route::get('sedes',                                 [MatriculaController::class, 'getSedes']);
     Route::get('facultad/{id}',                         [MatriculaController::class, 'getFacultades']);
     Route::get('carrera/{id}',                          [MatriculaController::class, 'getCarreras']);
@@ -168,7 +168,7 @@ Route::prefix('matricula/matriculados')->group(function ($router) {
     Route::get('search/{plan_id}/{anhio_id}',           [MatriculaController::class, 'search']);
 });
 
-Route::prefix('matricula/alumno')->group(function ($router) {
+Route::prefix('matricula/alumno')->middleware(['permisso:MAlumnos'])->group(function () {
     Route::get('filtro/{p}/{m}/{n}/{d}',                [MAlumnoController::class, 'filtro']);
     Route::get('plan/{alumno_id}',                      [MAlumnoController::class, 'getPlanesAlumno']);
     Route::get('plan/facultad/{id}',                    [MAlumnoController::class, 'getFacultades']);
@@ -180,7 +180,7 @@ Route::prefix('matricula/alumno')->group(function ($router) {
     Route::post('plan',                                 [MAlumnoController::class, 'savePlanAlumno']);
 });
 
-Route::prefix('matricula/habilitacion')->group(function ($router) {
+Route::prefix('matricula/habilitacion')->middleware(['permisso:GHabilitarCursos'])->group(function () {
     Route::get('sedes/get',                             [MHabilitacionCursosController::class, 'getSedes']);
     Route::get('facultad/{id}',                         [MHabilitacionCursosController::class, 'getFacultades']);
     Route::get('carrera/{id}',                          [MHabilitacionCursosController::class, 'getCarreras']);
@@ -195,7 +195,7 @@ Route::prefix('matricula/habilitacion')->group(function ($router) {
     Route::get('docente/{id}/{curso_id}',               [MHabilitacionCursosController::class, 'changeDocente']);
 });
 
-Route::prefix('matricula/planes')->group(function ($router) {
+Route::prefix('matricula/planes')->middleware(['permisso:GHabilitarPlanes'])->group(function () {
     Route::get('sedes/get',                             [MHabilitacionPlanController::class, 'getSedes']);
     Route::get('facultad/{id}',                         [MHabilitacionPlanController::class, 'getFacultades']);
     Route::get('carrera/{id}',                          [MHabilitacionPlanController::class, 'getCarreras']);
@@ -205,7 +205,7 @@ Route::prefix('matricula/planes')->group(function ($router) {
     Route::delete('{id}/{carrera_id}',                  [MHabilitacionPlanController::class, 'destroy']);
 });
 
-Route::prefix('matricula/alumno')->group(function ($router) {
+Route::prefix('matricula/alumno')->middleware(['permisso:MAlumno'])->group(function () {
     Route::get('',                                      [MatriculaAlumnoController::class, 'index']);
     Route::get('paso2/{id}',                            [MatriculaAlumnoController::class, 'getPaso2ById']);
     Route::post('',                                     [MatriculaAlumnoController::class, 'create']);
@@ -213,7 +213,7 @@ Route::prefix('matricula/alumno')->group(function ($router) {
     Route::put('paso2',                                 [MatriculaAlumnoController::class, 'updatematriculaPaso2']);
 });
 
-Route::prefix('matricula/culminar')->group(function ($router) {
+Route::prefix('matricula/culminar')->middleware(['permisso:FMatricula'])->group(function () {
     Route::get('sedes/get',                             [CulminarMatriculaController::class, 'getSedes']);
     Route::get('facultad/{id}',                         [CulminarMatriculaController::class, 'getFacultades']);
     Route::get('carrera/{id}',                          [CulminarMatriculaController::class, 'getCarreras']);
@@ -225,11 +225,11 @@ Route::prefix('matricula/culminar')->group(function ($router) {
     Route::get('paso3/{id}',                            [CulminarMatriculaController::class, 'paso3']);
 });
 
-Route::prefix('matricula/admin')->group(function ($router) {
+Route::prefix('matricula/admin')->middleware(['permisso:MAddAlumno'])->group(function () {
     Route::post('',                                     [MatriculaAdminController::class, 'create']);
 });
 
-Route::prefix('docente')->group(function ($router) {
+Route::prefix('docente')->middleware(['permisso:Docente'])->group(function () {
     Route::get('',                                      [DCursosController::class, 'getCursos']);
     Route::get('alumnos/{id}',                          [DCursosController::class, 'getAlumnos']);
 
@@ -248,7 +248,7 @@ Route::prefix('docente')->group(function ($router) {
     Route::get('upnotas/{cur_id}',                      [DEvaluacionController::class, 'upNotas']);
 });
 
-Route::prefix('alumno')->group(function ($router) {
+Route::prefix('alumno')->middleware(['permisso:Alumno'])->group(function () {
     Route::get('',                                      [ACursosController::class, 'getCursos']);
     Route::get('{id}',                                  [ACursosController::class, 'getCursosByOtherMatricula']);
     Route::get('evaluacion/{id}',                       [ACursosController::class, 'getEvaluaciones']);

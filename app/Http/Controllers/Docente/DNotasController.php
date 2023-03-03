@@ -76,6 +76,10 @@ class DNotasController extends Controller
         $theDate = Carbon::parse($evaluacion->fecha)->addDays(7)->format('Y-m-d');
         $miTiempo = Carbon::now()->format('Y-m-d');
 
+        $curso = SemestresCurso::join('semestres', 'semestres.id', 'semestres_cursos.semestre_id')
+        ->where('semestres_cursos.id', $evaluacion->sem_cur_id)->select('semestres.estado as semestre_estado')
+        ->first();
+
         if($curso->semestre_estado){
             if($miTiempo > $theDate) {
                 return response()->json([
